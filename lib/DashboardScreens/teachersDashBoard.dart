@@ -16,7 +16,9 @@ class TeachersDashboard extends StatelessWidget {
               child: ListTile(
                 leading: Icon(Icons.class_),
                 title: Text(classes[index].name),
-                subtitle: Text('Time: ${classes[index].time}\nLocation: ${classes[index].location}'),
+                subtitle: Text('Time: ${classes[index].time}\nLocation: ${classes[index].location}',style: TextStyle(
+                  color: Colors.black,fontWeight: FontWeight.w700
+                ),),
                 onTap: () {
                   Navigator.push(
                     context,

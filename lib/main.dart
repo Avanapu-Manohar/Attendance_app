@@ -25,15 +25,24 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(colors:[Colors.blue,
+          Colors.red],
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft)
+        ),
          child: Center(
            child: Column(
              mainAxisAlignment: MainAxisAlignment.center,
              children: [
-               const Text('welcome',style: TextStyle(fontSize: 35,
-               color: Colors.black,fontWeight: FontWeight.bold ),),
-               const SizedBox(height: 15,),
-               const Text('Login as a',style: TextStyle(fontSize:20,
-                   color: Colors.black87,fontWeight: FontWeight.w400),),
+               const Icon(Icons.account_circle_sharp,size: 200,color: Color(
+                   0xFF081A52)),
+               SizedBox(height:25,),
+               const Text('welcome',style: TextStyle(fontSize: 55,
+               color: Color(0xFF081A52),fontWeight: FontWeight.bold ),),
+               const SizedBox(height: 10,),
+               const Text('Login as a',style: TextStyle(fontSize:25,
+                   color: Color(0xFF081A52),fontWeight: FontWeight.w600),),
                const SizedBox(height: 25,),
                ElevatedButton(onPressed: () {
                  Navigator.push(
@@ -42,17 +51,17 @@ class WelcomeScreen extends StatelessWidget {
                  );
                },
                    style: ElevatedButton.styleFrom(
-                     backgroundColor: Colors.black38, // Set the background color here
+                     backgroundColor: Color(0xFF081A52), // Set the background color here
                    ),
                    child:
                    const Padding(
                        padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 10.0),
-                     child: Text('Teacher', style: TextStyle(fontSize: 15,color: Colors.black87)),
+                     child: Text('Teacher', style: TextStyle(fontSize: 20,color: Colors.white)),
                    )
                ),
                SizedBox(height: 15,),
                const Text('OR',style: TextStyle(fontSize:20,
-                   color: Colors.black87,fontWeight: FontWeight.w400),),
+                   color: Colors.white,fontWeight: FontWeight.w900),),
                const SizedBox(height: 15,),
                ElevatedButton(onPressed: () {
                  Navigator.push(
@@ -61,12 +70,12 @@ class WelcomeScreen extends StatelessWidget {
                  );
                },
                    style: ElevatedButton.styleFrom(
-                     backgroundColor: Colors.black38, // Set the background color here
+                     backgroundColor: Color(0xFF081A52), // Set the background color here
                    ),
                    child:
                    const Padding(
                      padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 10.0),
-                     child: Text('Student', style: TextStyle(fontSize: 15,color: Colors.black87)),
+                     child: Text('Student', style: TextStyle(fontSize: 20,color: Colors.white)),
                    )
                ),
              ],
