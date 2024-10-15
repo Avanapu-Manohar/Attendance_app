@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dashboard/teachersDashBoard.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,9 +27,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Firebase Auth',
-      home: LoginScreen(),
-    );
+        title: 'Student Attendence Application',
+        initialRoute: '/',
+        routes: {
+          '/': (context) => LoginScreen(),
+          '/teacherHome': (context) => TeachersDashboard(),
+          '/studentHome': (context) => TeachersDashboard(),
+        });
   }
 }
 
@@ -43,13 +48,24 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> loginUser() async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
+      // Get user role
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user!.email)
+          .get();
+      String role = userDoc['role'];
+
+      // Navigate based on role
+      if (role == 'teacher') {
+        Navigator.pushReplacementNamed(context, '/teacherHome');
+      } else if (role == 'student') {
+        Navigator.pushReplacementNamed(context, '/studentHome');
+      }
     } catch (e) {
       print('Login failed: $e');
     }
