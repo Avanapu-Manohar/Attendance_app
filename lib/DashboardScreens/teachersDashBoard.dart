@@ -1,3 +1,4 @@
+import 'package:attendence_app/DashboardScreens/attendenceReport.dart';
 import 'package:attendence_app/classes%20data/ClassesData.dart';
 import 'package:flutter/material.dart';
 class TeachersDashboard extends StatelessWidget {
@@ -16,6 +17,13 @@ class TeachersDashboard extends StatelessWidget {
                 leading: Icon(Icons.class_),
                 title: Text(classes[index].name),
                 subtitle: Text('Time: ${classes[index].time}\nLocation: ${classes[index].location}'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AttendenceReport(),
+                    ),
+                  );
+                }
               ),
             );
           }),
