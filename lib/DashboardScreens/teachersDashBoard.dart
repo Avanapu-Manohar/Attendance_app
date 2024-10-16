@@ -1,5 +1,6 @@
 import 'package:attendence_app/DashboardScreens/attendenceReport.dart';
 import 'package:attendence_app/classes%20data/ClassesData.dart';
+import 'package:attendence_app/dashboard/attendenceReport.dart';
 import 'package:flutter/material.dart';
 
 class TeachersDashboard extends StatelessWidget {
