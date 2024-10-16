@@ -1,202 +1,98 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dashboard/teachersDashBoard.dart';
-import 'dashboard/studentDashBoard.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  // Web-specific Firebase initialization
+import 'dashboard/attendenceReport.dart';
 
-  await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: "AIzaSyB-Qx0cL_oO6wEJpOTsuvIWRocImxwQJyY",
-      appId: "1:974951677749:web:1e1bbc268a6fba322cd67c",
-      messagingSenderId: "974951677749",
-      projectId: "attendenceapp-25337",
-      storageBucket: "attendenceapp-25337.appspot.com",
-      authDomain: "attandenceapp-25337.firebaseapp.com",
-    ),
-  );
-
-  await Firebase.initializeApp(); // Initialize Firebase
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Student Attendence Application',
-        initialRoute: '/',
-        routes: {
-          '/': (context) => LoginScreen(),
-          '/signup': (context) => SignUpScreen(),
-          '/teacherHome': (context) => TeachersDashboard(),
-          '/studentHome': (context) => StudentDashboard(),
-        });
-  }
-}
-
-class LoginScreen extends StatefulWidget {
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  Future<void> loginUser() async {
-    try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      // Get user role
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userCredential.user!.uid)
-          .get();
-      String role = userDoc['role'];
-
-      // Navigate based on role
-      if (role == 'teacher') {
-        Navigator.pushReplacementNamed(context, '/teacherHome');
-      } else if (role == 'student') {
-        Navigator.pushReplacementNamed(context, '/studentHome');
-      }
-    } catch (e) {
-      print('Login failed: $e');
-      // Optionally, show an error message to the user
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Login failed. Please check your credentials.'),
-        ),
-      );
-    }
-  }
+class TeachersDashboard extends StatelessWidget {
+  const TeachersDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.lightBlue,
+        centerTitle: true,
+        title: const Text(
+          'Classes Taught',
+          style: TextStyle(
+            color: Color(0xFF081A52),
+            fontWeight: FontWeight.w600,
+            fontSize: 22,
+          ),
+        ),
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.lightBlue, Colors.orangeAccent],
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: loginUser,
-              child: Text('Login'),
-            ),
-            const SizedBox(height: 20),
-            // Sign-Up Navigation
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Don't have an account?"),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/signup');
-                  },
-                  child: const Text('Sign Up'),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SignUpScreen extends StatefulWidget {
-  @override
-  _SignUpScreenState createState() => _SignUpScreenState();
-}
-
-class _SignUpScreenState extends State<SignUpScreen> {
-  final _auth = FirebaseAuth.instance;
-  final _firestore = FirebaseFirestore.instance;
-  String email = '';
-  String password = '';
-  String selectedRole = 'student'; // default role
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Sign Up')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
           children: [
-            TextField(
-              decoration: InputDecoration(hintText: 'Email'),
-              onChanged: (value) => email = value,
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                'Select a Class to Post Attendance',
+                style: TextStyle(
+                  color: Color(0xFF081A52),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-            TextField(
-              decoration: InputDecoration(hintText: 'Password'),
-              obscureText: true,
-              onChanged: (value) => password = value,
-            ),
-            DropdownButton<String>(
-              value: selectedRole,
-              items: ['student', 'teacher'].map((String role) {
-                return DropdownMenuItem<String>(
-                  value: role,
-                  child: Text(role),
-                );
-              }).toList(),
-              onChanged: (value) => setState(() {
-                selectedRole = value!;
-              }),
-            ),
-            ElevatedButton(
-              onPressed: () => signUpUser(),
-              child: Text('Sign Up'),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance.collection('classes').snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  final classes = snapshot.data!.docs;
+                  if (classes.isEmpty) {
+                    return const Center(child: Text('No classes available'));
+                  }
+                  return ListView.builder(
+                    itemCount: classes.length,
+                    itemBuilder: (context, index) {
+                      var classData = classes[index].data() as Map<String, dynamic>;
+                      return Card(
+                        margin: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
+                        color: const Color(0xFFAEBDD0),
+                        child: ListTile(
+                          leading: const Icon(
+                            Icons.class_,
+                            color: Color(0xFF081A52),
+                          ),
+                          title: Text(
+                            classData['name'] ?? 'Class Name',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF081A52),
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AttendenceReport(),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ],
         ),
       ),
     );
-  }
-
-  void signUpUser() async {
-    try {
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      User? user = userCredential.user;
-
-      if (user != null) {
-        // Add user to Firestore with role
-        await _firestore.collection('users').doc(user.uid).set({
-          'email': email,
-          'role': selectedRole,
-        });
-
-        // Navigate to the dashboard or home screen
-        Navigator.pushNamed(context, '/');
-      }
-    } catch (e) {
-      print(e);
-      // Handle sign-up error (show Snackbar or Dialog)
-    }
   }
 }
