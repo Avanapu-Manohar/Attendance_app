@@ -11,12 +11,12 @@ void main() async {
 
   await Firebase.initializeApp(
     options: FirebaseOptions(
-      apiKey: "AIzaSyBife0DEe_x7KJXpEyJo-rPbtYvzPPRbt8",
-      appId: "1:769123613709:web:53a3a55514081a3be86944",
-      messagingSenderId: "769123613709",
-      projectId: "attandenceapp-b01ea",
-      storageBucket: "attandenceapp-b01ea.appspot.com",
-      authDomain: "attandenceapp-b01ea.firebaseapp.com",
+      apiKey: "AIzaSyB-Qx0cL_oO6wEJpOTsuvIWRocImxwQJyY",
+      appId: "1:974951677749:web:1e1bbc268a6fba322cd67c",
+      messagingSenderId: "974951677749",
+      projectId: "attendenceapp-25337",
+      storageBucket: "attendenceapp-25337.appspot.com",
+      authDomain: "attandenceapp-25337.firebaseapp.com",
     ),
   );
 
