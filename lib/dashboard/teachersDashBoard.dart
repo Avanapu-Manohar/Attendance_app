@@ -45,7 +45,7 @@ class TeachersDashboard extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SubjectsScreen(),
+                        builder: (context) => SubjectsDashboard(),
                       ),
                     );
                   },
