@@ -81,7 +81,7 @@ class TeachersDashboard extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AttendenceReport(),
+                                builder: (context) => AttendanceReport(),
                               ),
                             );
                           },
@@ -98,3 +98,4 @@ class TeachersDashboard extends StatelessWidget {
     );
   }
 }
+
