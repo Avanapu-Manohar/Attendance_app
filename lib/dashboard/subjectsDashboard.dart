@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import 'attendenceReport.dart';
+
 class SubjectsDashboard extends StatelessWidget {
   const SubjectsDashboard({super.key});
 
@@ -27,20 +27,20 @@ class SubjectsDashboard extends StatelessWidget {
             return const Center(child: Text('No subjects are available.'));
           }
 
-          final subjectDocs = snapshot.data!.docs;
+          final subjectDocs = snapshot.data!.docs; // Changed variable name to subjectDocs
 
           return ListView.builder(
             itemCount: subjectDocs.length,
             itemBuilder: (BuildContext context, int index) {
-              // Use the document ID as the class name
-              String subjectName = subjectDocs[index]['name'] ?? 'Unnamed Subject';
+              // Access the subject name from the document data
+              String subjectName = subjectDocs[index].get('name') ?? 'Unnamed Subject'; // Safely get the subject name
 
               return Card(
                 child: ListTile(
                   leading: const Icon(Icons.class_),
-                  title: Text(subjectName), // Displaying document ID as class name
+                  title: Text(subjectName), // Displaying the subject name
                   onTap: () {
-                    // Navigate to AttendanceReport screen, passing class ID
+                    // Navigate to AttendanceReport screen, passing subject ID or name if needed
                     Navigator.push(
                       context,
                       MaterialPageRoute(
