@@ -33,8 +33,16 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => LoginScreen(),
           '/signup': (context) => SignUpScreen(),
-          '/teacherHome': (context) => TeachersDashboard(),
-          '/studentHome': (context) => StudentDashboard(),
+          '/teacherHome': (context) {
+            final Map arguments =
+                ModalRoute.of(context)!.settings.arguments as Map;
+            return TeacherDashboard(userId: arguments['userId']);
+          },
+          '/studentHome': (context) {
+            final Map arguments =
+                ModalRoute.of(context)!.settings.arguments as Map;
+            return StudentsDashBoard(userId: arguments['userId']);
+          }
         });
   }
 }
@@ -55,18 +63,23 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text,
         password: _passwordController.text,
       );
+      String userId = userCredential.user!.uid;
       // Get user role
       DocumentSnapshot userDoc = await FirebaseFirestore.instance
           .collection('users')
-          .doc(userCredential.user!.uid)
+          .doc(userId)
           .get();
       String role = userDoc['role'];
 
       // Navigate based on role
       if (role == 'teacher') {
-        Navigator.pushReplacementNamed(context, '/teacherHome');
+        Navigator.pushReplacementNamed(context, '/teacherHome', arguments: {
+          'userId': userId, // Passing the userId to the route
+        });
       } else if (role == 'student') {
-        Navigator.pushReplacementNamed(context, '/studentHome');
+        Navigator.pushReplacementNamed(context, '/studentHome', arguments: {
+          'userId': userId, // Passing the userId to the route
+        });
       }
     } catch (e) {
       print('Login failed: $e');
@@ -154,7 +167,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             DropdownButton<String>(
               value: selectedRole,
-              items: ['student', 'teacher'].map((String role) {
+              items: ['Student', 'Teacher'].map((String role) {
                 return DropdownMenuItem<String>(
                   value: role,
                   child: Text(role),
