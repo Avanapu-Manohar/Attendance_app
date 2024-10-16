@@ -31,19 +31,20 @@ class TeachersDashboard extends StatelessWidget {
           return ListView.builder(
             itemCount: classDocs.length,
             itemBuilder: (BuildContext context, int index) {
-              var classData = classDocs[index].data() as Map<String, dynamic>;
-              String className = classData['name'] ?? 'Unnamed Class';  // Get class name
+              // Use the document ID as the class name
+              String className = classDocs[index].id; // Document ID as class name
 
               return Card(
                 child: ListTile(
                   leading: const Icon(Icons.class_),
-                  title: Text(className),
+                  title: Text(className), // Displaying document ID as class name
                   onTap: () {
-                    // Navigate to AttendanceReport screen, passing class ID or other relevant data
+                    // Navigate to AttendanceReport screen, passing class ID
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AttendenceReport(),
+                        builder: (context) => AttendenceReport(
+                        ),
                       ),
                     );
                   },
