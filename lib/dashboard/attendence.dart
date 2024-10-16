@@ -10,15 +10,9 @@ class StudentsScreen extends StatelessWidget {
   StudentsScreen({required this.classData, required this.subjectId});
 
   Future<List<User>> fetchStudentsForClass(String classId) async {
-    var classDoc = await FirebaseFirestore.instance
-        .collection('classes')
-        .doc(classId)
-        .get();
-    List<String> studentIds =
-        List<String>.from(classDoc.data()?['students'] ?? []);
     var studentSnapshots = await FirebaseFirestore.instance
         .collection('users')
-        .where(FieldPath.documentId, whereIn: studentIds)
+        .where(FieldPath.documentId, whereIn: classData.studentIds)
         .get();
 
     return studentSnapshots.docs.map((doc) => User.fromFirestore(doc)).toList();
