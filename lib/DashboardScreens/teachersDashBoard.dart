@@ -1,6 +1,7 @@
 import 'package:attendence_app/DashboardScreens/attendenceReport.dart';
 import 'package:attendence_app/classes%20data/ClassesData.dart';
 import 'package:attendence_app/dashboard/attendenceReport.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class TeachersDashboard extends StatelessWidget {
@@ -42,41 +43,46 @@ class TeachersDashboard extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: classes.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    margin: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
-                    color: Color(0xFFAEBDD0),
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.class_,
-                        color: Color(0xFF081A52),
-                      ),
-                      title: Text(
-                        classes[index].name,
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFF081A52)),
-                      ),
-                      subtitle: Text(
-                        'Time: ${classes[index].time}\nLocation: ${classes[index].location}',
-                        style: TextStyle(
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                  .collection('classes').snapshots(),
+                builder: (context,AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  final classes = snapshot.data!.docs;
+                  return ListView.builder(
+                    itemCount: classes.length,
+                    itemBuilder: (context, int index) {
+                      var classData = classes[index].data() as Map<String, dynamic>;
+                      return Card(
+                        margin: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
+                        color: Color(0xFFAEBDD0),
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.class_,
                             color: Color(0xFF081A52),
-                            fontWeight: FontWeight.w700),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AttendenceReport(),
                           ),
-                        );
-                      },
-                    ),
+                          title: Text(
+                            classData['name'] ?? 'Class Name',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF081A52)),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AttendenceReport(),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
                   );
-                },
+                }
               ),
             ),
           ],
