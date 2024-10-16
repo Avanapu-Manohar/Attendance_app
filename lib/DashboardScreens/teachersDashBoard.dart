@@ -70,7 +70,7 @@ class TeachersDashboard extends StatelessWidget {
                             color: Color(0xFF081A52),
                           ),
                           title: Text(
-                            className, 
+                            className,
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
