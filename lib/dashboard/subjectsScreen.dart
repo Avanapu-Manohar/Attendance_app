@@ -3,9 +3,8 @@ import 'package:attendence_app/models/class.dart';
 import 'attendence.dart';
 
 class SubjectsScreen extends StatelessWidget {
-  final Class classData;
+  late final Class classData;
 
-  SubjectsScreen({required this.classData});
 
   @override
   Widget build(BuildContext context) {

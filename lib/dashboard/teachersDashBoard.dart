@@ -1,5 +1,6 @@
 import 'package:attendence_app/dashboard/attendenceReport.dart';
 import 'package:attendence_app/dashboard/studentDashBoard.dart';
+import 'package:attendence_app/dashboard/subjectsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -44,7 +45,7 @@ class TeachersDashboard extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => StudentsDashBoard(userId: '',),
+                        builder: (context) => SubjectsScreen(),
                       ),
                     );
                   },
