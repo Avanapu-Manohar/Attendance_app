@@ -1,11 +1,25 @@
-import 'package:attendence_app/dashboard/attendenceReport.dart';
-import 'package:attendence_app/dashboard/studentDashBoard.dart';
 import 'package:attendence_app/dashboard/subjectsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:attendence_app/models/class.dart';
 
-class TeachersDashboard extends StatelessWidget {
-  const TeachersDashboard({super.key, required userId});
+class TeacherDashboard extends StatelessWidget {
+  final String userId; // Assuming the teacher is logged in
+
+  TeacherDashboard({required this.userId});
+
+  // Fetch the classes for the teacher from Firestore
+  Future<List<Class>> fetchClassesForTeacher() async {
+    var classesSnapshot =
+        await FirebaseFirestore.instance.collection('classes').get();
+
+    List<Class> classes = [];
+    for (var doc in classesSnapshot.docs) {
+      // Create a new Class instance with resolved teacher
+      classes.add(Class.fromFirestore(doc));
+    }
+    return classes;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +48,14 @@ class TeachersDashboard extends StatelessWidget {
             itemCount: classDocs.length,
             itemBuilder: (BuildContext context, int index) {
               // Use the document ID as the class name
-              String className = classDocs[index].id; // Document ID as class name
+              String className =
+                  classDocs[index].id; // Document ID as class name
 
               return Card(
                 child: ListTile(
                   leading: const Icon(Icons.class_),
-                  title: Text(className), // Displaying document ID as class name
+                  title:
+                      Text(className), // Displaying document ID as class name
                   onTap: () {
                     // Navigate to AttendanceReport screen, passing class ID
                     Navigator.push(

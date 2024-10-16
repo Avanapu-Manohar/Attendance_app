@@ -15,13 +15,19 @@ class Class {
 
   // Factory constructor to map Firestore document to Class object
   factory Class.fromFirestore(DocumentSnapshot doc) {
-    var data = doc.data() as Map<String, dynamic>;
+    List<DocumentReference> studentsRefs =
+        List<DocumentReference>.from(doc['students']);
+    List<DocumentReference> subjectsRefs =
+        List<DocumentReference>.from(doc['subjects']);
+    DocumentReference teacherRef = doc['teacher'];
+    List<String> studentIDs = studentsRefs.map((ref) => ref.id).toList();
+    List<String> subjectIDs = subjectsRefs.map((ref) => ref.id).toList();
+    String teacherID = teacherRef.id;
+
     return Class(
-      id: doc.id,
-      teacher: data['teacher'],
-      subjects: List<String>.from(data['subjects'] ?? []),
-      studentIds: List<String>.from(
-          data['students'] ?? []), // Ensure the list of student IDs is not null
-    );
+        id: doc.id,
+        teacher: teacherID,
+        subjects: subjectIDs,
+        studentIds: studentIDs);
   }
 }

@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           '/teacherHome': (context) {
             final Map arguments =
                 ModalRoute.of(context)!.settings.arguments as Map;
-            return TeachersDashboard(userId: arguments['userId']);
+            return TeacherDashboard(userId: arguments['userId']);
           },
           '/studentHome': (context) {
             final Map arguments =
