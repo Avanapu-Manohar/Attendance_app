@@ -1,57 +1,39 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../classes data/studentsData.dart';
+class AttendanceReport extends StatelessWidget {
+  final ValueNotifier<List<Map<String, dynamic>>> studentsNotifier = ValueNotifier<List<Map<String, dynamic>>>([]);
 
-class AttendenceReport extends StatefulWidget {
-  final String classId; // Pass the class ID (e.g., 'class 8') to the constructor
-
-  AttendenceReport({super.key, required this.classId});
-
-  @override
-  _AttendenceReportState createState() => _AttendenceReportState();
-}
-
-class _AttendenceReportState extends State<AttendenceReport> {
-  List<Student> students = []; // List to hold the fetched student data
-  bool isLoading = true; // To show loading indicator while fetching data
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchStudents(); // Call the function to fetch students
+  AttendanceReport({super.key}) {
+    fetchStudents(); // Fetch students in the constructor
   }
 
-  Future<void> _fetchStudents() async {
+  // Function to fetch students from Firestore
+  Future<void> fetchStudents() async {
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
     try {
-      // Fetch the class document
-      DocumentSnapshot classDoc = await FirebaseFirestore.instance
-          .collection('classes')
-          .doc(widget.classId)
-          .get();
+      DocumentSnapshot snapshot = await _firestore.collection('classes').doc('class-8').get();
 
-      if (classDoc.exists) {
-        // Get the array of student references
-        List<dynamic> studentRefs = classDoc['students'];
+      if (snapshot.exists) {
+        List<dynamic> studentRefs = snapshot['students']; // Fetching student references
+        List<Map<String, dynamic>> studentList = [];
 
-        // Fetch each student document and create a Student object
+        // Fetching each student's data
         for (var ref in studentRefs) {
-          DocumentSnapshot studentDoc = await FirebaseFirestore.instance
-              .collection('users')
-              .doc(ref.id) // Assuming ref is a DocumentReference
-              .get();
-
-          if (studentDoc.exists) {
-            students.add(Student.fromFirestore(studentDoc)); // Assuming you have a method to create Student from Firestore document
+          DocumentSnapshot userDoc = await ref.get();
+          if (userDoc.exists) {
+            studentList.add({
+              'name': userDoc['name'] ?? 'Unknown',
+              'isPresent': false, // Default to not present
+            });
           }
         }
+
+        studentsNotifier.value = studentList; // Update the notifier with the student list
       }
     } catch (e) {
       print('Error fetching students: $e');
-    } finally {
-      setState(() {
-        isLoading = false; // Stop loading when data fetch is complete
-      });
     }
   }
 
@@ -70,9 +52,7 @@ class _AttendenceReportState extends State<AttendenceReport> {
           ),
         ),
       ),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Container(
+      body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.lightBlue, Colors.orangeAccent],
@@ -97,39 +77,71 @@ class _AttendenceReportState extends State<AttendenceReport> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: students.length,
-                  itemBuilder: (context, int index) {
-                    return Card(
-                      margin: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
-                      child: ListTile(
-                        leading: Text(
-                          '${index + 1}', // Display serial number
-                          style: const TextStyle(
-                            color: Color(0xFF081A52),
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                child: ValueListenableBuilder<List<Map<String, dynamic>>>(
+                  valueListenable: studentsNotifier,
+                  builder: (context, studentList, _) {
+                    return ListView.builder(
+                      itemCount: studentList.length,
+                      itemBuilder: (context, int index) {
+                        return Card(
+                          margin: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
+                          child: ListTile(
+                            leading: Text(
+                              '${index + 1}', // Display serial number
+                              style: const TextStyle(
+                                color: Color(0xFF081A52),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            title: Text(
+                              studentList[index]['name'],
+                              style: const TextStyle(
+                                  color: Color(0xFF081A52),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w900),
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text(
+                                  'Present',
+                                  style: TextStyle(
+                                      color: Color(0xFF081A52),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Checkbox(
+                                  value: studentList[index]['isPresent'],
+                                  onChanged: (bool? value) {
+                                    if (value != null) {
+                                      studentsNotifier.value = List.from(studentList)
+                                        ..[index]['isPresent'] = value; // Update present status
+                                    }
+                                  },
+                                ),
+                                const SizedBox(width: 5),
+                                const Text(
+                                  'Absent',
+                                  style: TextStyle(
+                                      color: Color(0xFF081A52),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Checkbox(
+                                  value: !studentList[index]['isPresent'], // Inverse of the present status
+                                  onChanged: (bool? value) {
+                                    if (value != null) {
+                                      studentsNotifier.value = List.from(studentList)
+                                        ..[index]['isPresent'] = !value; // Update absent status
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        title: Text(
-                          students[index].name,
-                          style: const TextStyle(
-                            color: Color(0xFF081A52),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                        trailing: Checkbox(
-                          value: students[index].isPresent,
-                          onChanged: (bool? value) {
-                            if (value != null) {
-                              setState(() {
-                                students[index].isPresent = value; // Update present status
-                              });
-                            }
-                          },
-                        ),
-                      ),
+                        );
+                      },
                     );
                   },
                 ),
