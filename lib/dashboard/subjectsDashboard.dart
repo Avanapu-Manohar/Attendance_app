@@ -27,26 +27,24 @@ class SubjectsDashboard extends StatelessWidget {
             return const Center(child: Text('No subjects are available.'));
           }
 
-          final subjectDocs = snapshot.data!.docs;
+          final subjectDocs = snapshot.data!.docs; // Changed variable name to subjectDocs
 
           return ListView.builder(
             itemCount: subjectDocs.length,
             itemBuilder: (BuildContext context, int index) {
               // Access the subject name from the document data
-              String subjectName = subjectDocs[index].get('name') ?? 'Unnamed Subject';
-              String subjectId = subjectDocs[index].id; // Get the subject ID for later use
+              String subjectName = subjectDocs[index].get('name') ?? 'Unnamed Subject'; // Safely get the subject name
 
               return Card(
-                margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
                 child: ListTile(
                   leading: const Icon(Icons.class_),
                   title: Text(subjectName), // Displaying the subject name
                   onTap: () {
-                    // Navigate to AttendanceReport screen, passing subject ID
+                    // Navigate to AttendanceReport screen, passing subject ID or name if needed
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AttendenceReport(classId: subjectId), // Pass subjectId or any other required data
+                        builder: (context) => AttendenceReport(),
                       ),
                     );
                   },

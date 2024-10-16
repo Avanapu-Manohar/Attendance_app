@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AttendenceReport extends StatelessWidget {
   final ValueNotifier<List<Student>> studentsNotifier = ValueNotifier<List<Student>>(students);
 
-  AttendenceReport({super.key, required String classId});
+  AttendenceReport({super.key});
 
   @override
   Widget build(BuildContext context) {
