@@ -167,7 +167,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             DropdownButton<String>(
               value: selectedRole,
-              items: ['Student', 'Teacher'].map((String role) {
+              items: ['student', 'teacher'].map((String role) {
                 return DropdownMenuItem<String>(
                   value: role,
                   child: Text(role),
