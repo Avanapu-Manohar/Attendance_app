@@ -15,7 +15,7 @@ class User {
     var data = doc.data() as Map<String, dynamic>;
     return User(
       id: doc.id,
-      name: data['email'],
+      name: data['name'],
       role: data['role'],
     );
   }

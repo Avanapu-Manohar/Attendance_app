@@ -36,7 +36,7 @@ class TeacherDashboard extends StatelessWidget {
               itemBuilder: (context, index) {
                 var classData = classes[index];
                 return ListTile(
-                  title: Text('Class ID: ${classData.id}'),
+                  title: Text('${classData.id}'),
                   onTap: () {
                     // Navigate to SubjectScreen with the class id and subjects list
                     Navigator.push(
