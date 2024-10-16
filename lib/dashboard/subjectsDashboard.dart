@@ -1,10 +1,9 @@
-import 'package:attendence_app/dashboard/attendenceReport.dart';
-import 'package:attendence_app/dashboard/subjectsDashboard.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
-class TeachersDashboard extends StatelessWidget {
-  const TeachersDashboard({super.key});
+import 'attendenceReport.dart';
+class SubjectsDashboard extends StatelessWidget {
+  const SubjectsDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +15,7 @@ class TeachersDashboard extends StatelessWidget {
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('classes').snapshots(),
+        stream: FirebaseFirestore.instance.collection('subjects').snapshots(),
         builder: (context, snapshot) {
           // Check for connection errors or loading state
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -24,7 +23,7 @@ class TeachersDashboard extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('No classes available.'));
+            return const Center(child: Text('No subjects are available.'));
           }
 
           final classDocs = snapshot.data!.docs;
@@ -33,18 +32,18 @@ class TeachersDashboard extends StatelessWidget {
             itemCount: classDocs.length,
             itemBuilder: (BuildContext context, int index) {
               // Use the document ID as the class name
-              String className = classDocs[index].id;
+              String subjectName = classDocs[index].id;
 
               return Card(
                 child: ListTile(
                   leading: const Icon(Icons.class_),
-                  title: Text(className), // Displaying document ID as class name
+                  title: Text(subjectName), // Displaying document ID as class name
                   onTap: () {
                     // Navigate to AttendanceReport screen, passing class ID
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SubjectsDashboard(),
+                        builder: (context) => AttendenceReport(),
                       ),
                     );
                   },
