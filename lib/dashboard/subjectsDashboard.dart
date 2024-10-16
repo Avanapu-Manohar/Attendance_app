@@ -9,8 +9,9 @@ class SubjectsDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
-          'Teachers Dashboard',
+          'List of Subjects',
           style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w500),
         ),
       ),
@@ -26,13 +27,13 @@ class SubjectsDashboard extends StatelessWidget {
             return const Center(child: Text('No subjects are available.'));
           }
 
-          final classDocs = snapshot.data!.docs;
+          final subjectDocs = snapshot.data!.docs;
 
           return ListView.builder(
-            itemCount: classDocs.length,
+            itemCount: subjectDocs.length,
             itemBuilder: (BuildContext context, int index) {
               // Use the document ID as the class name
-              String subjectName = classDocs[index].id;
+              String subjectName = subjectDocs[index]['name'] ?? 'Unnamed Subject';
 
               return Card(
                 child: ListTile(
