@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dashboard/teachersDashBoard.dart';
+import 'dashboard/studentDashBoard.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => LoginScreen(),
           '/teacherHome': (context) => TeachersDashboard(),
-          '/studentHome': (context) => TeachersDashboard(),
+          '/studentHome': (context) => StudentDashboard(),
         });
   }
 }
