@@ -39,12 +39,31 @@ class StudentsScreen extends StatelessWidget {
                 var student = students[index];
                 return ListTile(
                   title: Text(student.name),
-                  trailing: ElevatedButton(
-                    onPressed: () {
-                      // Mark attendance for this student
-                      markAttendance(student.id, classData.id, subjectId);
-                    },
-                    child: Text('Mark Present'),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize
+                        .min, // Ensures the buttons don't take up unnecessary space
+                    children: [
+                      ElevatedButton(
+                        onPressed: () async {
+                          markAttendance(
+                              student.id, classData.id, subjectId, true);
+                        },
+                        child: Text('Present'),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green),
+                      ),
+                      SizedBox(
+                          width: 8), // Add some spacing between the buttons
+                      ElevatedButton(
+                        onPressed: () async {
+                          markAttendance(
+                              student.id, classData.id, subjectId, false);
+                        },
+                        child: Text('Absent'),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red),
+                      ),
+                    ],
                   ),
                 );
               },
@@ -56,14 +75,24 @@ class StudentsScreen extends StatelessWidget {
   }
 
   // Dummy function to mark attendance
-  void markAttendance(String studentId, String classId, String subjectId) {
-    // Logic to mark attendance in Firestore
-    FirebaseFirestore.instance.collection('attendance-sheet').add({
-      'class': classId,
-      'studentId': studentId,
-      'datetime': FieldValue.serverTimestamp(),
-      'present': true,
-      'subject': subjectId
-    });
+  Future<void> markAttendance(
+      String studentId, String classId, String subjectId, bool present) async {
+    String dateString = DateTime.now().toIso8601String().split('T').first;
+    String docId = '${classId}_${subjectId}_${dateString}_$studentId';
+
+    final attendanceCollection =
+        FirebaseFirestore.instance.collection('attendance-sheet');
+    DocumentSnapshot doc = await attendanceCollection.doc(docId).get();
+    if (!doc.exists) {
+      FirebaseFirestore.instance.collection('attendance-sheet').doc(docId).set({
+        'class': classId,
+        'studentId': studentId,
+        'datetime': FieldValue.serverTimestamp(),
+        'present': present,
+        'subject': subjectId
+      });
+    } else {
+      await attendanceCollection.doc(docId).update({'present': present});
+    }
   }
 }
