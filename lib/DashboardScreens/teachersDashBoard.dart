@@ -59,6 +59,8 @@ class TeachersDashboard extends StatelessWidget {
                     itemCount: classes.length,
                     itemBuilder: (context, index) {
                       var classData = classes[index].data() as Map<String, dynamic>;
+                      String className = classData['name'] ?? 'Unnamed Class'; // Fetch the class name from the Firestore document
+
                       return Card(
                         margin: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
                         color: const Color(0xFFAEBDD0),
@@ -68,7 +70,7 @@ class TeachersDashboard extends StatelessWidget {
                             color: Color(0xFF081A52),
                           ),
                           title: Text(
-                            classData['name'] ?? 'Class Name',
+                            className, 
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
