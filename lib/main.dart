@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dashboard/teachersDashBoard.dart';
+import 'dashboard/teacherDashBoard.dart';
 import 'dashboard/studentDashBoard.dart';
 
 void main() async {
@@ -151,37 +151,54 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Sign Up')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              decoration: InputDecoration(hintText: 'Email'),
-              onChanged: (value) => email = value,
-            ),
-            TextField(
-              decoration: InputDecoration(hintText: 'Password'),
-              obscureText: true,
-              onChanged: (value) => password = value,
-            ),
-            DropdownButton<String>(
-              value: selectedRole,
-              items: ['student', 'teacher'].map((String role) {
-                return DropdownMenuItem<String>(
-                  value: role,
-                  child: Text(role),
-                );
-              }).toList(),
-              onChanged: (value) => setState(() {
-                selectedRole = value!;
-              }),
-            ),
-            ElevatedButton(
-              onPressed: () => signUpUser(),
-              child: Text('Sign Up'),
-            ),
-          ],
+      appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.lightBlue,
+          centerTitle: true,
+          title: Text('Sign Up',
+            style: TextStyle(
+              color: Color(0xFF081A52),
+              fontWeight: FontWeight.w500,
+            ),)),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF2E50A1), Colors.orangeAccent],
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextField(
+                decoration: InputDecoration(hintText: 'Email'),
+                onChanged: (value) => email = value,
+              ),
+              TextField(
+                decoration: InputDecoration(hintText: 'Password'),
+                obscureText: true,
+                onChanged: (value) => password = value,
+              ),
+              DropdownButton<String>(
+                value: selectedRole,
+                items: ['student', 'teacher'].map((String role) {
+                  return DropdownMenuItem<String>(
+                    value: role,
+                    child: Text(role),
+                  );
+                }).toList(),
+                onChanged: (value) => setState(() {
+                  selectedRole = value!;
+                }),
+              ),
+              ElevatedButton(
+                onPressed: () => signUpUser(),
+                child: Text('Sign Up'),
+              ),
+            ],
+          ),
         ),
       ),
     );

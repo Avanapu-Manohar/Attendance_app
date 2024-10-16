@@ -3,10 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:attendence_app/models/class.dart';
 import 'subjectsScreen.dart';
 
-class TeacherDashboard extends StatelessWidget {
+class AttendenceScreen extends StatelessWidget {
   final String userId; // Assuming the teacher is logged in
 
-  TeacherDashboard({required this.userId});
+  AttendenceScreen({required this.userId});
 
   // Fetch the classes for the teacher from Firestore
   Future<List<Class>> fetchClassesForTeacher() async {
