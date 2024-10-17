@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Firestore package
 
-import 'attendance_screen.dart';
+import 'periodic_attendance_report.dart';
 
 class ReportsPage extends StatefulWidget {
   ReportsPage({super.key});
@@ -120,9 +120,8 @@ class _ReportsPageState extends State<ReportsPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AttendanceScreen(
-                        userId: '',
-                      ),
+                      builder: (context) => PeriodicAttendanceReporter(
+                          classId: classChoose!, subjectId: subjectChoose!),
                     ),
                   );
                 } else {

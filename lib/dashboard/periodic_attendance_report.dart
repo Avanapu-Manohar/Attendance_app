@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
+import 'daily_attendance_table.dart';
+import 'monthly_attendance_table.dart';
 
-class AttendanceScreen extends StatefulWidget {
-  const AttendanceScreen({super.key});
+class PeriodicAttendanceReporter extends StatefulWidget {
+  final String? classId;
+  final String? subjectId;
+  const PeriodicAttendanceReporter(
+      {required this.classId, required this.subjectId});
 
   @override
-  _AttendanceScreenState createState() => _AttendanceScreenState();
+  _PeriodicAttendanceReporterState createState() =>
+      _PeriodicAttendanceReporterState(classId: classId, subjectId: subjectId);
 }
 
-class _AttendanceScreenState extends State<AttendanceScreen> {
+class _PeriodicAttendanceReporterState
+    extends State<PeriodicAttendanceReporter> {
+  final String? classId;
+  final String? subjectId;
   // Toggle control variable (0 for daily, 1 for monthly)
   int _selectedView = 0;
+  const _PeriodicAttendanceReporterState(
+      {required this.classId, required this.subjectId});
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +57,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           Expanded(
             child: _selectedView == 0
                 ? DailyAttendanceTable(
-                    classId: 'classId123',
-                    subjectId: 'subjectId456',
+                    classId: classId!,
+                    subjectId: subjectId!,
                     year: 2024,
                     month: 10)
                 : MonthlyAttendanceTable(
