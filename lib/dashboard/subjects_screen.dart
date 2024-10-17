@@ -21,6 +21,7 @@ class SubjectsScreen extends StatelessWidget {
         itemCount: classData.subjects.length,
         itemBuilder: (context, index) {
           var subject = classData.subjects[index];
+<<<<<<< Updated upstream
           return Card(
             margin: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
             color: Color(0xFF748BEA),
@@ -44,6 +45,20 @@ class SubjectsScreen extends StatelessWidget {
                 );
               },
             ),
+=======
+          return ListTile(
+            title: Text(subject.name),
+            onTap: () {
+              // Navigate to StudentsScreen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StudentsScreen(
+                      classData: classData, subjectId: subject.id),
+                ),
+              );
+            },
+>>>>>>> Stashed changes
           );
         },
       ),

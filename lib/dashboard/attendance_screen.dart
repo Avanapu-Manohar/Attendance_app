@@ -14,7 +14,9 @@ class AttendanceScreen extends StatelessWidget {
     var classesSnapshot =
         await FirebaseFirestore.instance.collection('classes').get();
 
-    return classesSnapshot.docs.map((doc) => Class.fromFirestore(doc)).toList();
+    List<Class> classList = await Future.wait(classesSnapshot.docs
+        .map((doc) async => await Class.fromFirestore(doc)));
+    return classList;
   }
 
   @override
@@ -42,6 +44,7 @@ class AttendanceScreen extends StatelessWidget {
               itemCount: classes.length,
               itemBuilder: (context, index) {
                 var classData = classes[index];
+<<<<<<< Updated upstream
                 return Card(
                   margin: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
                   color: Color(0xFF748BEA),
@@ -66,6 +69,20 @@ class AttendanceScreen extends StatelessWidget {
                       );
                     },
                   ),
+=======
+                return ListTile(
+                  title: Text('${classData.name}'),
+                  onTap: () {
+                    // Navigate to SubjectScreen with the class id and subjects list
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            SubjectsScreen(classData: classData),
+                      ),
+                    );
+                  },
+>>>>>>> Stashed changes
                 );
               },
             );

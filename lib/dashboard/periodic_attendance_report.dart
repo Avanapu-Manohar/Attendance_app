@@ -10,13 +10,14 @@ class PeriodicAttendanceReporter extends StatefulWidget {
 
   @override
   _PeriodicAttendanceReporterState createState() =>
-      _PeriodicAttendanceReporterState(classId: classId, subjectId: subjectId);
+      _PeriodicAttendanceReporterState(
+          classId: classId!, subjectId: subjectId!);
 }
 
 class _PeriodicAttendanceReporterState
     extends State<PeriodicAttendanceReporter> {
-  final String? classId;
-  final String? subjectId;
+  final String classId;
+  final String subjectId;
   // Toggle control variable (0 for daily, 1 for monthly)
   int _selectedView = 0;
   _PeriodicAttendanceReporterState(
@@ -61,6 +62,7 @@ class _PeriodicAttendanceReporterState
                 ],
               ),
             ),
+<<<<<<< Updated upstream
             SizedBox(height: 15,),
             // Conditionally display the appropriate attendance view
             Expanded(
@@ -77,6 +79,22 @@ class _PeriodicAttendanceReporterState
             ),
           ],
         ),
+=======
+          ),
+
+          // Conditionally display the appropriate attendance view
+          Expanded(
+            child: _selectedView == 0
+                ? DailyAttendanceTable(
+                    classId: classId,
+                    subjectId: subjectId,
+                    year: 2024,
+                    month: 10)
+                : MonthlyAttendanceTable(
+                    classId: classId, subjectId: subjectId, year: 2024),
+          ),
+        ],
+>>>>>>> Stashed changes
       ),
     );
   }

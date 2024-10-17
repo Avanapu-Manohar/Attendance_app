@@ -15,11 +15,11 @@ class _ReportsPageState extends State<ReportsPage> {
   String? subjectChoose;
 
   // List to hold the fetched classes and subjects
-  List<String> classList = [];
-  List<String> subjectList = [];
+  Map<String, String> classList = {};
+  Map<String, String> subjectList = {};
 
   // Store selected class and corresponding subjects
-  Map<String, List<String>> classSubjectsMap = {};
+  Map<String, Map<String, String>> classSubjectsMap = {};
 
   @override
   void initState() {
@@ -41,14 +41,24 @@ class _ReportsPageState extends State<ReportsPage> {
       classSubjectsMap.clear();
 
       for (var doc in querySnapshot.docs) {
+        String classId = doc.id;
         String className = doc['name'];
-        List<String> subjects = List<DocumentReference>.from(doc['subjects'])
-            .map((ref) => ref.id)
-            .toList();
 
-        classList.add(className);
+        List<DocumentReference> subjectRefs =
+            List<DocumentReference>.from(doc['subjects']);
 
-        classSubjectsMap[className] = subjects;
+        Map<String, String> subjectMap = {};
+
+        for (var subjectRef in subjectRefs) {
+          DocumentSnapshot subjectDoc = await subjectRef.get();
+          String subjectId = subjectRef.id;
+          String subjectName = subjectDoc['name'];
+
+          subjectMap[subjectId] = subjectName;
+        }
+
+        classSubjectsMap[classId] = subjectMap;
+        classList[classId] = className;
       }
 
       setState(() {});
@@ -84,6 +94,7 @@ class _ReportsPageState extends State<ReportsPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+<<<<<<< Updated upstream
                 // Dropdown for Class selection
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0), // Padding inside the box
@@ -118,9 +129,26 @@ class _ReportsPageState extends State<ReportsPage> {
                       });
                     },
                   ),
+=======
+                DropdownButton(
+                  hint: const Text('Select class'),
+                  value: classChoose,
+                  items: classList.entries.map((entry) {
+                    return DropdownMenuItem(
+                        value: entry.key, child: Text(entry.value));
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      classChoose = newValue;
+                      subjectList = classSubjectsMap[newValue!] ?? {};
+                      subjectChoose = null; // Reset subject when class changes
+                    });
+                  },
+>>>>>>> Stashed changes
                 ),
                 SizedBox(width: 25),
                 // Dropdown for Subject selection (based on selected class)
+<<<<<<< Updated upstream
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0), // Padding inside the box
                   decoration: BoxDecoration(
@@ -152,6 +180,20 @@ class _ReportsPageState extends State<ReportsPage> {
                       });
                     },
                   ),
+=======
+                DropdownButton(
+                  hint: const Text('Select subject'),
+                  value: subjectChoose,
+                  items: subjectList.entries.map((entry) {
+                    return DropdownMenuItem(
+                        value: entry.key, child: Text(entry.value));
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      subjectChoose = newValue;
+                    });
+                  },
+>>>>>>> Stashed changes
                 ),
               ],
             ),
@@ -163,7 +205,7 @@ class _ReportsPageState extends State<ReportsPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => PeriodicAttendanceReporter(
-                          classId: classChoose!, subjectId: subjectChoose!),
+                          classId: classChoose!, subjectId: subjectChoose),
                     ),
                   );
                 } else {
