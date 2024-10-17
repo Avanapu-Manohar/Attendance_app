@@ -19,7 +19,7 @@ class _PeriodicAttendanceReporterState
   final String? subjectId;
   // Toggle control variable (0 for daily, 1 for monthly)
   int _selectedView = 0;
-  const _PeriodicAttendanceReporterState(
+  _PeriodicAttendanceReporterState(
       {required this.classId, required this.subjectId});
 
   @override
