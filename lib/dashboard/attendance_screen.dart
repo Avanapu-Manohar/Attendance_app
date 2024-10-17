@@ -1,4 +1,3 @@
-// teacher to view their list of classes fetched from Firebase Firestore.
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:attendence_app/models/class.dart';
@@ -14,13 +13,29 @@ class AttendanceScreen extends StatelessWidget {
     var classesSnapshot =
         await FirebaseFirestore.instance.collection('classes').get();
 
-    return classesSnapshot.docs.map((doc) => Class.fromFirestore(doc)).toList();
+    // Mapping Firestore data to Class model
+
+    List<Class> classList = await Future.wait(classesSnapshot.docs
+        .map((doc) async => await Class.fromFirestore(doc)));
+
+    return classList;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Attendance Screen')),
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        centerTitle: true,
+        title: Text(
+          'Attendance Screen',
+          style: TextStyle(
+            color: Color(0xFF081A52),
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
       body: FutureBuilder<List<Class>>(
         future: fetchClassesForTeacher(),
         builder: (context, snapshot) {
@@ -36,18 +51,33 @@ class AttendanceScreen extends StatelessWidget {
               itemCount: classes.length,
               itemBuilder: (context, index) {
                 var classData = classes[index];
-                return ListTile(
-                  title: Text('${classData.id}'),
-                  onTap: () {
-                    // Navigate to SubjectScreen with the class id and subjects list
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            SubjectsScreen(classData: classData),
+                return Card(
+                  margin: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
+                  color: Color(0xFF748BEA),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.class_,
+                      color: Color(0xFF081A52),
+                    ),
+                    title: Text(
+                      '${classData.name}', // Assuming Class model has a 'name' field
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF081A52),
                       ),
-                    );
-                  },
+                    ),
+                    onTap: () {
+                      // Navigate to SubjectScreen with the class data
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              SubjectsScreen(classData: classData),
+                        ),
+                      );
+                    },
+                  ),
                 );
               },
             );
