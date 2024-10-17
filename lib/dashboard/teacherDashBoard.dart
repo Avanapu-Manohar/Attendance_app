@@ -27,7 +27,7 @@ class TeacherDashboard extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 ElevatedButton(onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AttendenceScreen(userId: '',)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AttendenceScreen(userId: 'userId',)));
                 },
                     style:  ElevatedButton.styleFrom(
                       foregroundColor: Colors.white, backgroundColor: Colors.blue, // Text (and icon) color
