@@ -2,8 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dashboard/teacherDashBoard.dart';
-import 'dashboard/studentDashBoard.dart';
+import 'dashboard/teacher_dashBoard.dart';
+import 'dashboard/student_dash_board.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -155,11 +155,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
           elevation: 0,
           backgroundColor: Colors.lightBlue,
           centerTitle: true,
-          title: Text('Sign Up',
+          title: Text(
+            'Sign Up',
             style: TextStyle(
               color: Color(0xFF081A52),
               fontWeight: FontWeight.w500,
-            ),)),
+            ),
+          )),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(

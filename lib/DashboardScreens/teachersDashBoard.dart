@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../dashboard/attendenceReport.dart';
+import '../dashboard/attendence_report.dart';
 
 class TeachersDashboard extends StatelessWidget {
   const TeachersDashboard({super.key});
@@ -46,7 +46,9 @@ class TeachersDashboard extends StatelessWidget {
             ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('classes').snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection('classes')
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(child: CircularProgressIndicator());
@@ -58,11 +60,14 @@ class TeachersDashboard extends StatelessWidget {
                   return ListView.builder(
                     itemCount: classes.length,
                     itemBuilder: (context, index) {
-                      var classData = classes[index].data() as Map<String, dynamic>;
-                      String className = classData['name'] ?? 'Unnamed Class'; // Fetch the class name from the Firestore document
+                      var classData =
+                          classes[index].data() as Map<String, dynamic>;
+                      String className = classData['name'] ??
+                          'Unnamed Class'; // Fetch the class name from the Firestore document
 
                       return Card(
-                        margin: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
+                        margin:
+                            const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
                         color: const Color(0xFFAEBDD0),
                         child: ListTile(
                           leading: const Icon(
@@ -98,4 +103,3 @@ class TeachersDashboard extends StatelessWidget {
     );
   }
 }
-
