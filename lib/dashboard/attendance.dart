@@ -21,7 +21,14 @@ class StudentsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Students for ${classData.id}')),
+      appBar: AppBar(
+          backgroundColor: Colors.blue,
+          centerTitle: true,
+          title: Text('Students for ${classData.id}',style:
+          TextStyle(
+              color: Color(0xFF081A52),fontSize: 18,fontWeight: FontWeight.w700
+          ),
+          )),
       body: FutureBuilder<List<User>>(
         future: fetchStudentsForClass(classData.id),
         builder: (context, snapshot) {
@@ -37,33 +44,53 @@ class StudentsScreen extends StatelessWidget {
               itemCount: students.length,
               itemBuilder: (context, index) {
                 var student = students[index];
-                return ListTile(
-                  title: Text(student.name),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize
-                        .min, // Ensures the buttons don't take up unnecessary space
-                    children: [
-                      ElevatedButton(
-                        onPressed: () async {
-                          markAttendance(
-                              student.id, classData.id, subjectId, true);
-                        },
-                        child: Text('Present'),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green),
+                return Card(
+                  margin: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
+                  color: Color(0xFF748BEA),
+                  child: ListTile(
+                    leading: Text(
+                      '${index + 1}', // Display serial number
+                      style: const TextStyle(
+                        color: Color(0xFF081A52),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
-                      SizedBox(
-                          width: 8), // Add some spacing between the buttons
-                      ElevatedButton(
-                        onPressed: () async {
-                          markAttendance(
-                              student.id, classData.id, subjectId, false);
-                        },
-                        child: Text('Absent'),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red),
-                      ),
-                    ],
+                    ),
+                    title: Text(student.name,style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF081A52)
+                    ),),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize
+                          .min, // Ensures the buttons don't take up unnecessary space
+                      children: [
+                        ElevatedButton(
+                          onPressed: () async {
+                            markAttendance(
+                                student.id, classData.id, subjectId, true);
+                          },
+                          child: Text('Present',style: TextStyle(
+                            color: Colors.white,fontSize: 18,fontWeight: FontWeight.w800
+                          ),),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green),
+                        ),
+                        SizedBox(
+                            width: 8), // Add some spacing between the buttons
+                        ElevatedButton(
+                          onPressed: () async {
+                            markAttendance(
+                                student.id, classData.id, subjectId, false);
+                          },
+                          child: Text('Absent',style: TextStyle(
+                            color: Colors.white, fontSize: 18,fontWeight: FontWeight.w800
+                          ),),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

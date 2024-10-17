@@ -20,7 +20,13 @@ class AttendanceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Attendance Screen')),
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        centerTitle: true,
+          title: Text('Attendance Screen',style:
+            TextStyle(
+              color: Color(0xFF081A52),fontSize: 18,fontWeight: FontWeight.w700
+            ),)),
       body: FutureBuilder<List<Class>>(
         future: fetchClassesForTeacher(),
         builder: (context, snapshot) {
@@ -36,18 +42,30 @@ class AttendanceScreen extends StatelessWidget {
               itemCount: classes.length,
               itemBuilder: (context, index) {
                 var classData = classes[index];
-                return ListTile(
-                  title: Text('${classData.id}'),
-                  onTap: () {
-                    // Navigate to SubjectScreen with the class id and subjects list
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            SubjectsScreen(classData: classData),
-                      ),
-                    );
-                  },
+                return Card(
+                  margin: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
+                  color: Color(0xFF748BEA),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.class_,
+                      color: Color(0xFF081A52),
+                    ),
+                    title: Text('${classData.id}',style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF081A52)),
+                    ),
+                    onTap: () {
+                      // Navigate to SubjectScreen with the class id and subjects list
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              SubjectsScreen(classData: classData),
+                        ),
+                      );
+                    },
+                  ),
                 );
               },
             );

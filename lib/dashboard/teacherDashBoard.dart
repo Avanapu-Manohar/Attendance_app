@@ -1,7 +1,8 @@
-import 'package:attendence_app/dashboard/reportsPage.dart';
+import 'package:attendence_app/dashboard/attendance_screen.dart';
+import 'package:attendence_app/dashboard/reports_page.dart';
 import 'package:flutter/material.dart';
 
-import 'attendenceScreen.dart';
+import 'attendance.dart';
 class TeacherDashboard extends StatelessWidget {
   final String userId;
   TeacherDashboard({required this.userId});
@@ -27,7 +28,7 @@ class TeacherDashboard extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 ElevatedButton(onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AttendenceScreen(userId: 'userId',)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AttendanceScreen(userId: 'userId',)));
                 },
                     style:  ElevatedButton.styleFrom(
                       foregroundColor: Colors.white, backgroundColor: Colors.blue, // Text (and icon) color

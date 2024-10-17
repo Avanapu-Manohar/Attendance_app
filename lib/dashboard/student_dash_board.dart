@@ -9,27 +9,34 @@ class StudentsDashBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Student Dashboard'),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        title: Text('Student Dashboard',style: TextStyle(
+            color: Color(0xFF081A52), fontSize: 18, fontWeight: FontWeight.w700
+        ),),
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: 15,),
             Text(
               'Welcome, Student!',
-              style: TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: 24,color: Color(0xFF081A52),fontWeight: FontWeight.w800),
             ),
             SizedBox(height: 20),
             Text(
               'This is a temporary page for user ID: $userId',
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 13,fontWeight: FontWeight.w500,color: Color(0xFF081A52)),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // You can add any action or route to another page here
               },
-              child: Text('Dummy Action'),
+              style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF081A52)),
+              child: Text('Dummy Action',style: TextStyle(
+                fontSize: 12,fontWeight: FontWeight.bold,color: Colors.white
+              ),),
             ),
           ],
         ),

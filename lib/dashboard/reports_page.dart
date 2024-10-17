@@ -62,54 +62,96 @@ class _ReportsPageState extends State<ReportsPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        backgroundColor: Colors.blue,
         title: Text(
           'Attendance Report Screen',
           style: TextStyle(
-              color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700),
+              color: Color(0xFF081A52), fontSize: 18, fontWeight: FontWeight.w700),
         ),
       ),
       body: Center(
         child: Column(
           children: [
+            SizedBox(height: 15,),
             Text(
-              'Reports for a list of classes',
+              'Reports for a list of classes and subjects',
               style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700),
+                  color: Color(0xFF081A52),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500),
             ),
             SizedBox(height: 25),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Dropdown for Class selection
-                DropdownButton(
-                  hint: const Text('Select class'),
-                  value: classChoose,
-                  items: classList.map((String value) {
-                    return DropdownMenuItem(value: value, child: Text(value));
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      classChoose = newValue;
-                      subjectList = classSubjectsMap[newValue!] ?? [];
-                      subjectChoose = null; // Reset subject when class changes
-                    });
-                  },
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0), // Padding inside the box
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black38, width: 2.0),
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Colors.white54,
+                  ),
+                  child: DropdownButton(
+                    hint: const Text('Select class',style: TextStyle(
+                        color: Color(0xFF081A52),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500
+                    ),),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.black38,
+                    ),
+                    value: classChoose,
+                    items: classList.map((String value) {
+                      return DropdownMenuItem(value: value, child: Text(value,style: TextStyle(
+                          color: Color(0xFF081A52),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500
+                      ),));
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        classChoose = newValue;
+                        subjectList = classSubjectsMap[newValue!] ?? [];
+                        subjectChoose = null; // Reset subject when class changes
+                      });
+                    },
+                  ),
                 ),
-                SizedBox(width: 15),
+                SizedBox(width: 25),
                 // Dropdown for Subject selection (based on selected class)
-                DropdownButton(
-                  hint: const Text('Select subject'),
-                  value: subjectChoose,
-                  items: subjectList.map((String value) {
-                    return DropdownMenuItem(value: value, child: Text(value));
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      subjectChoose = newValue;
-                    });
-                  },
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0), // Padding inside the box
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black38, width: 2.0),
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Colors.white54,
+                  ),
+                  child: DropdownButton(
+                    hint: const Text('Select subject',style: TextStyle(
+                        color: Color(0xFF081A52),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500
+                    ),),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.black38,
+                    ),
+                    value: subjectChoose,
+                    items: subjectList.map((String value) {
+                      return DropdownMenuItem(value: value, child: Text(value,style: TextStyle(
+                          color: Color(0xFF081A52),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500
+                      ),));
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        subjectChoose = newValue;
+                      });
+                    },
+                  ),
                 ),
               ],
             ),
@@ -131,18 +173,12 @@ class _ReportsPageState extends State<ReportsPage> {
                   ));
                 }
               },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.blue,
+              style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF081A52)),
+              child:const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 90.0, vertical:8.0),
+                child: Text('Enter', style: TextStyle(fontSize: 18,color: Colors.white,fontWeight: FontWeight.bold,)),
               ),
-              child: Text(
-                'Enter',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18,
-                ),
               ),
-            ),
           ],
         ),
       ),
