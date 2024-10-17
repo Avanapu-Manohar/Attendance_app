@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:attendence_app/models/class.dart';
-import 'attendence.dart';
+import 'attendance.dart';
 
 class SubjectsScreen extends StatelessWidget {
   final Class classData;

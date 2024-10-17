@@ -77,9 +77,13 @@ class StudentsScreen extends StatelessWidget {
   // Dummy function to mark attendance
   Future<void> markAttendance(
       String studentId, String classId, String subjectId, bool present) async {
-    String dateString = DateTime.now().toIso8601String().split('T').first;
-    String docId = '${classId}_${subjectId}_${dateString}_$studentId';
-
+    // Daily and monthly integer representations
+    DateTime now = DateTime.now();
+    int dailyDate = int.parse(
+        "${now.year}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}");
+    int monthlyDate =
+        int.parse("${now.year}${now.month.toString().padLeft(2, '0')}");
+    String docId = '${classId}_${subjectId}_${dailyDate}_$studentId';
     final attendanceCollection =
         FirebaseFirestore.instance.collection('attendance-sheet');
     DocumentSnapshot doc = await attendanceCollection.doc(docId).get();
@@ -88,6 +92,8 @@ class StudentsScreen extends StatelessWidget {
         'class': classId,
         'studentId': studentId,
         'datetime': FieldValue.serverTimestamp(),
+        'dailyDate': dailyDate, // Save integer format for daily queries
+        'monthlyDate': monthlyDate, // Save integer format for monthly queries
         'present': present,
         'subject': subjectId
       });

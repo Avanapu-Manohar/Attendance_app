@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:attendence_app/models/class.dart';
-import 'subjectsScreen.dart';
+import 'subjects_screen.dart';
 
-class AttendenceScreen extends StatelessWidget {
+class AttendanceScreen extends StatelessWidget {
   final String userId; // Assuming the teacher is logged in
 
-  AttendenceScreen({required this.userId});
+  AttendanceScreen({required this.userId});
 
   // Fetch the classes for the teacher from Firestore
   Future<List<Class>> fetchClassesForTeacher() async {
@@ -20,7 +20,7 @@ class AttendenceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Teacher Dashboard')),
+      appBar: AppBar(title: Text('Attendance Screen')),
       body: FutureBuilder<List<Class>>(
         future: fetchClassesForTeacher(),
         builder: (context, snapshot) {
