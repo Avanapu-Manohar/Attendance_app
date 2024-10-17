@@ -54,7 +54,7 @@ class DailyAttendanceTable extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: DataTable(
             columns: [
-              DataColumn(label: Text('Student ID')),
+              DataColumn(label: Text('Date / Student')),
               ...dates
                   .map((date) => DataColumn(label: Text(date.substring(6)))),
             ],
