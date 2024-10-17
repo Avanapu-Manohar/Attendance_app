@@ -1,4 +1,3 @@
-// teacher to view their list of classes fetched from Firebase Firestore.
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:attendence_app/models/class.dart';
@@ -12,10 +11,13 @@ class AttendanceScreen extends StatelessWidget {
   // Fetch the classes for the teacher from Firestore
   Future<List<Class>> fetchClassesForTeacher() async {
     var classesSnapshot =
-        await FirebaseFirestore.instance.collection('classes').get();
+    await FirebaseFirestore.instance.collection('classes').get();
 
-    List<Class> classList = await Future.wait(classesSnapshot.docs
-        .map((doc) async => await Class.fromFirestore(doc)));
+    // Mapping Firestore data to Class model
+    List<Class> classList = classesSnapshot.docs
+        .map((doc) => Class.fromFirestore(doc))
+        .toList();
+
     return classList;
   }
 
@@ -25,10 +27,15 @@ class AttendanceScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.blue,
         centerTitle: true,
-          title: Text('Attendance Screen',style:
-            TextStyle(
-              color: Color(0xFF081A52),fontSize: 18,fontWeight: FontWeight.w700
-            ),)),
+        title: Text(
+          'Attendance Screen',
+          style: TextStyle(
+            color: Color(0xFF081A52),
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
       body: FutureBuilder<List<Class>>(
         future: fetchClassesForTeacher(),
         builder: (context, snapshot) {
@@ -44,7 +51,6 @@ class AttendanceScreen extends StatelessWidget {
               itemCount: classes.length,
               itemBuilder: (context, index) {
                 var classData = classes[index];
-<<<<<<< Updated upstream
                 return Card(
                   margin: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 5.0),
                   color: Color(0xFF748BEA),
@@ -53,13 +59,16 @@ class AttendanceScreen extends StatelessWidget {
                       Icons.class_,
                       color: Color(0xFF081A52),
                     ),
-                    title: Text('${classData.id}',style: TextStyle(
+                    title: Text(
+                      '${classData.name}', // Assuming Class model has a 'name' field
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF081A52)),
+                        color: Color(0xFF081A52),
+                      ),
                     ),
                     onTap: () {
-                      // Navigate to SubjectScreen with the class id and subjects list
+                      // Navigate to SubjectScreen with the class data
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -69,20 +78,6 @@ class AttendanceScreen extends StatelessWidget {
                       );
                     },
                   ),
-=======
-                return ListTile(
-                  title: Text('${classData.name}'),
-                  onTap: () {
-                    // Navigate to SubjectScreen with the class id and subjects list
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            SubjectsScreen(classData: classData),
-                      ),
-                    );
-                  },
->>>>>>> Stashed changes
                 );
               },
             );
