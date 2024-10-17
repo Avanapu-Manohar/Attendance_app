@@ -1,7 +1,7 @@
 import 'package:attendence_app/dashboard/reports_page.dart';
 import 'package:flutter/material.dart';
 
-import 'attendence_screen.dart';
+import 'attendance_screen.dart';
 
 class TeacherDashboard extends StatelessWidget {
   final String userId;
@@ -22,7 +22,7 @@ class TeacherDashboard extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              'Student Attendance Portal',
+              'Attendance Portal',
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
@@ -40,13 +40,13 @@ class TeacherDashboard extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => AttendenceScreen(
+                            builder: (context) => AttendanceScreen(
                                   userId: '',
                                 )));
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
-                    backgroundColor: Colors.blue, // Text (and icon) color
+                    backgroundColor: Colors.blue,
                   ),
                   child: Text(
                     'Take Attendence',
@@ -66,7 +66,7 @@ class TeacherDashboard extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
-                    backgroundColor: Colors.blue, // Text (and icon) color
+                    backgroundColor: Colors.blue,
                   ),
                   child: Text(
                     'Reports',

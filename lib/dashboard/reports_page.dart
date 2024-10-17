@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Firestore package
 
-import 'attendence_screen.dart';
+import 'attendance_screen.dart';
 
 class ReportsPage extends StatefulWidget {
   ReportsPage({super.key});
@@ -40,20 +40,18 @@ class _ReportsPageState extends State<ReportsPage> {
       classList.clear();
       classSubjectsMap.clear();
 
-      // Iterate through the documents in the collection
       for (var doc in querySnapshot.docs) {
         String className = doc['name'];
-        List<String> subjects = List<String>.from(
-            doc['subjects']); // Assuming 'subjects' is a List<String>
+        List<String> subjects = List<DocumentReference>.from(doc['subjects'])
+            .map((ref) => ref.id)
+            .toList();
 
-        // Add class name to the class list
         classList.add(className);
 
-        // Map class with its subjects
         classSubjectsMap[className] = subjects;
       }
 
-      setState(() {}); // Update the UI after fetching data
+      setState(() {});
     } catch (e) {
       print("Error fetching classes and subjects: $e");
     }
@@ -122,8 +120,8 @@ class _ReportsPageState extends State<ReportsPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AttendenceScreen(
-                        userId: '', // Pass appropriate userId
+                      builder: (context) => AttendanceScreen(
+                        userId: '',
                       ),
                     ),
                   );
@@ -136,7 +134,7 @@ class _ReportsPageState extends State<ReportsPage> {
               },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
-                backgroundColor: Colors.blue, // Text (and icon) color
+                backgroundColor: Colors.blue,
               ),
               child: Text(
                 'Enter',

@@ -1,61 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:attendence_app/models/class.dart';
+import 'subjects_screen.dart';
 
-class AttendanceScreen extends StatefulWidget {
-  const AttendanceScreen({super.key});
+class AttendanceScreen extends StatelessWidget {
+  final String userId; // Assuming the teacher is logged in
 
-  @override
-  _AttendanceScreenState createState() => _AttendanceScreenState();
-}
+  AttendanceScreen({required this.userId});
 
-class _AttendanceScreenState extends State<AttendanceScreen> {
-  // Toggle control variable (0 for daily, 1 for monthly)
-  int _selectedView = 0;
+  // Fetch the classes for the teacher from Firestore
+  Future<List<Class>> fetchClassesForTeacher() async {
+    var classesSnapshot =
+        await FirebaseFirestore.instance.collection('classes').get();
+
+    return classesSnapshot.docs.map((doc) => Class.fromFirestore(doc)).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Attendance View"),
-      ),
-      body: Column(
-        children: [
-          // Toggle Button to switch between Daily and Monthly
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ToggleButtons(
-              isSelected: [_selectedView == 0, _selectedView == 1],
-              onPressed: (int newIndex) {
-                setState(() {
-                  _selectedView = newIndex;
-                });
+      appBar: AppBar(title: Text('Attendance Screen')),
+      body: FutureBuilder<List<Class>>(
+        future: fetchClassesForTeacher(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No classes found'));
+          } else {
+            var classes = snapshot.data!;
+            return ListView.builder(
+              itemCount: classes.length,
+              itemBuilder: (context, index) {
+                var classData = classes[index];
+                return ListTile(
+                  title: Text('${classData.id}'),
+                  onTap: () {
+                    // Navigate to SubjectScreen with the class id and subjects list
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            SubjectsScreen(classData: classData),
+                      ),
+                    );
+                  },
+                );
               },
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('Daily View'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('Monthly View'),
-                ),
-              ],
-            ),
-          ),
-
-          // Conditionally display the appropriate attendance view
-          Expanded(
-            child: _selectedView == 0
-                ? DailyAttendanceTable(
-                    classId: 'classId123',
-                    subjectId: 'subjectId456',
-                    year: 2024,
-                    month: 10)
-                : MonthlyAttendanceTable(
-                    classId: 'classId123',
-                    subjectId: 'subjectId456',
-                    year: 2024),
-          ),
-        ],
+            );
+          }
+        },
       ),
     );
   }
