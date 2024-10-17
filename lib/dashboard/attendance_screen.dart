@@ -11,12 +11,12 @@ class AttendanceScreen extends StatelessWidget {
   // Fetch the classes for the teacher from Firestore
   Future<List<Class>> fetchClassesForTeacher() async {
     var classesSnapshot =
-    await FirebaseFirestore.instance.collection('classes').get();
+        await FirebaseFirestore.instance.collection('classes').get();
 
     // Mapping Firestore data to Class model
-    List<Class> classList = classesSnapshot.docs
-        .map((doc) => Class.fromFirestore(doc))
-        .toList();
+
+    List<Class> classList = await Future.wait(classesSnapshot.docs
+        .map((doc) async => await Class.fromFirestore(doc)));
 
     return classList;
   }
