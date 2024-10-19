@@ -451,7 +451,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         });
                       },
                     ),
-                    Text('Teacher'),
+                    Text('Teacher',style: TextStyle(
+                      color: Color(0xFF081A52),fontSize: 18,fontWeight: FontWeight.bold
+                    ),),
                     Radio(
                       value: 'student',
                       groupValue: selectedRole,
@@ -461,7 +463,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         });
                       },
                     ),
-                    Text('Student'),
+                    Text('Student',style: TextStyle(
+                        color: Color(0xFF081A52),fontSize: 18,fontWeight: FontWeight.bold
+                    ),),
                   ],
                 ),
                 ElevatedButton(

@@ -1,3 +1,5 @@
+import 'package:attendence_app/dashboard/student_attendance_report.dart';
+import 'package:attendence_app/dashboard/student_daily_attendance_table.dart';
 import 'package:attendence_app/models/class.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -40,9 +42,7 @@ class StudentsDashBoard extends StatelessWidget {
 
   // Check if user is enrolled in any class
   bool isUserEnrolledInClass(Class classItem) {
-    // Check if the students list is in the document data
-    // This requires a slight modification in fetching the classes
-    return classItem.studentIds.contains(userId); // This is still referring to the list, ensure this is valid in your model
+    return classItem.studentIds.contains(userId); // Ensure this is valid in your model
   }
 
   @override
@@ -83,17 +83,55 @@ class StudentsDashBoard extends StatelessWidget {
 
               return ListTile(
                 title: Text('Class: ${classItem.name}'),
-                subtitle: Text('Teacher ID: ${classItem.teacher}'),
-                trailing: ElevatedButton(
-                  onPressed: () {
-                    if (!isEnrolled) {
-                      enrollToClass(classItem.id);
-                    }
-                  },
-                  child: Text(isEnrolled ? 'Enrolled' : 'Enroll'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF081A52),
-                  ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        if (!isEnrolled) {
+                          enrollToClass(classItem.id);
+                          // Trigger a rebuild to check enrollment status
+                          (context as Element).markNeedsBuild();
+                        }
+                      },
+                      child: Text(
+                        isEnrolled ? 'Enrolled' : 'Enroll',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF081A52),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    ElevatedButton(
+                      onPressed: isEnrolled
+                          ? () {
+                        // Navigate to the Reports screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => StudentAttendanceReport(classId: '', studentId: '',),
+                          ),
+                        );
+                      }
+                          : null, // Disable button if not enrolled
+                      child: Text(
+                        'Reports',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isEnrolled ? Color(0xFF081A52) : Colors.grey, // Change color based on enrollment
+                      ),
+                    ),
+                  ],
                 ),
               );
             },
