@@ -14,7 +14,6 @@ class StudentsScreen extends StatelessWidget {
         .collection('users')
         .where(FieldPath.documentId, whereIn: classData.studentIds)
         .get();
-
     return studentSnapshots.docs.map((doc) => User.fromFirestore(doc)).toList();
   }
 
@@ -117,14 +116,15 @@ class StudentsScreen extends StatelessWidget {
       User student, String classId, String subjectId, bool present) async {
     DateTime now = DateTime.now();
     int dailyDate = int.parse(
-        "${now.year}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}");
+        "${now.year}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}");//create a daily date
     int monthlyDate =
     int.parse("${now.year}${now.month.toString().padLeft(2, '0')}");
-    String docId = '${classId}_${subjectId}_${dailyDate}_${student.id}';
+    String docId = '${classId}_${subjectId}_${dailyDate}_${student.id}';//create  a unique document id.
 
     final attendanceCollection =
-    FirebaseFirestore.instance.collection('attendance-sheet');
+    FirebaseFirestore.instance.collection('attendance-sheet');//store the attendance sheet to the data base
     DocumentSnapshot doc = await attendanceCollection.doc(docId).get();
+    //this line specifies that if the report is already created we can use doc to get that report
 
     if (!doc.exists) {
       await attendanceCollection.doc(docId).set({

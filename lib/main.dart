@@ -352,9 +352,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 20,
                 ),
                 SizedBox(
-                  height: 15,
-                ),
-                SizedBox(
                   width: 300,
                   child: TextField(
                     decoration: const InputDecoration(
@@ -508,12 +505,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
             .doc(user.uid)
             .set({'email': email, 'role': selectedRole, 'name': name});
 
-        // Navigate to the dashboard or home screen
+        // Navigate to the login Screen
         Navigator.pushNamed(context, '/');
       }
-    } catch (e) {
-      print(e);
-      // Handle sign-up error (show Snackbar or Dialog)
+    }catch (e) {
+      print('Sign Up failed: $e');
+      // Optionally, show an error message to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Sign Up failed. Please enter the valid details.'),
+        ),
+      );
     }
   }
 }

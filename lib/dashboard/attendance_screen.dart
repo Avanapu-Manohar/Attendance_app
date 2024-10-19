@@ -9,6 +9,7 @@ class AttendanceScreen extends StatelessWidget {
   AttendanceScreen({required this.userId});
 
   // Fetch the classes for the teacher from Firestore
+  //to fetch a list of classes from a Firestore database and return them as a list of Class objects.
   Future<List<Class>> fetchClassesForTeacher() async {
     var classesSnapshot =
         await FirebaseFirestore.instance.collection('classes').get();
