@@ -36,12 +36,12 @@ class MyApp extends StatelessWidget {
           '/signup': (context) => SignUpScreen(),
           '/teacherHome': (context) {
             final Map arguments =
-                ModalRoute.of(context)!.settings.arguments as Map;
+            ModalRoute.of(context)!.settings.arguments as Map;
             return TeacherDashboard(userId: arguments['userId']);
           },
           '/studentHome': (context) {
             final Map arguments =
-                ModalRoute.of(context)!.settings.arguments as Map;
+            ModalRoute.of(context)!.settings.arguments as Map;
             return StudentsDashBoard(userId: arguments['userId']);
           }
         });
@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> loginUser() async {
     try {
       UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
@@ -143,9 +143,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontWeight: FontWeight.bold),
                       border: OutlineInputBorder(
                           borderSide: BorderSide(
-                        color: Color(0xFF081A52),
-                        width: 2.0,
-                      )),
+                            color: Color(0xFF081A52),
+                            width: 2.0,
+                          )),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xFF081A52),
@@ -184,9 +184,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontWeight: FontWeight.bold),
                       border: OutlineInputBorder(
                           borderSide: BorderSide(
-                        color: Color(0xFF081A52),
-                        width: 2.0,
-                      )),
+                            color: Color(0xFF081A52),
+                            width: 2.0,
+                          )),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         borderSide: BorderSide(
@@ -216,7 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       backgroundColor: Color(0xFF081A52)),
                   child: const Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 80.0, vertical: 12.0),
+                    EdgeInsets.symmetric(horizontal: 80.0, vertical: 12.0),
                     child: Text('Login',
                         style: TextStyle(
                           fontSize: 18,
@@ -276,19 +276,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  AppBar(
+      appBar: AppBar(
           elevation: 0,
           backgroundColor: Color(0xFF6BAEE1),
           centerTitle: true,
-<<<<<<< HEAD
-          title: const Text('Login',
-            style: TextStyle(
-              color: Color(0xFF081A52),
-              fontWeight: FontWeight.w800,
-            ),)),
-        body: Container(
-          decoration: const BoxDecoration(
-=======
           title: const Text(
             'Sign Up',
             style: TextStyle(
@@ -298,7 +289,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           )),
       body: Container(
         decoration: const BoxDecoration(
->>>>>>> e99ca66df2c8f844cef0aec8b69d5e3392a990cf
           gradient: LinearGradient(
             colors: [Color(0xFFFFFFFF), Color(0xFF3D98EA)],
             begin: Alignment.topRight,
@@ -321,49 +311,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(
                   height: 15,
                 ),
-                // Name input field
                 SizedBox(
                   width: 300,
                   child: TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'Name',
-                      labelStyle: TextStyle(
-                          color: Color(0xFF081A52),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                        color: Color(0xFF081A52),
-                        width: 2.0,
-                      )),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF081A52),
-                          width: 2.0,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(
-                          color: Color(0xFF081A52),
-                          width: 1.0, // Border width when not focused
-                        ),
-                      ),
-                      prefixIcon: Icon(
-                        Icons.person,
-                        color: Color(0xFF081A52),
-                        size: 25,
-                      ),
-                    ),
-                    onChanged: (value) => name = value,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: 300,
-                  child: TextField(
+                    onChanged: (value) {
+                      email = value;
+                    },
                     decoration: const InputDecoration(
                       labelText: 'Email',
                       labelStyle: TextStyle(
@@ -372,20 +325,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           fontWeight: FontWeight.bold),
                       border: OutlineInputBorder(
                           borderSide: BorderSide(
-                        color: Color(0xFF081A52),
-                        width: 2.0,
-                      )),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF081A52),
-                          width: 2.0,
-                        ),
-                      ),
+                            color: Color(0xFF081A52),
+                            width: 2.0,
+                          )),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         borderSide: BorderSide(
                           color: Color(0xFF081A52),
                           width: 1.0, // Border width when not focused
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF081A52),
+                          width: 2.0,
                         ),
                       ),
                       prefixIcon: Icon(
@@ -394,15 +347,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         size: 25,
                       ),
                     ),
-                    onChanged: (value) => email = value,
+                    keyboardType: TextInputType.emailAddress,
+                    style: TextStyle(color: Color(0xFF081A52)),
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 SizedBox(
                   width: 300,
                   child: TextField(
+                    onChanged: (value) {
+                      password = value;
+                    },
                     decoration: const InputDecoration(
                       labelText: 'password',
                       labelStyle: TextStyle(
@@ -411,9 +368,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           fontWeight: FontWeight.bold),
                       border: OutlineInputBorder(
                           borderSide: BorderSide(
-                        color: Color(0xFF081A52),
-                        width: 2.0,
-                      )),
+                            color: Color(0xFF081A52),
+                            width: 2.0,
+                          )),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         borderSide: BorderSide(
@@ -434,60 +391,129 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     obscureText: true,
-                    onChanged: (value) => password = value,
                   ),
                 ),
                 SizedBox(
                   height: 15,
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0), // Padding inside the box
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black38, width: 2.0),
-                    borderRadius: BorderRadius.circular(8.0),
-                    color: Colors.white54,
-                  ),
-                  child: DropdownButton<String>(
-                    hint: const Text(
-                      'Select a Role',
-                      style: TextStyle(color: Colors.black, fontSize: 16),
+                SizedBox(
+                  width: 300,
+                  child: TextField(
+                    onChanged: (value) {
+                      name = value;
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Name',
+                      labelStyle: TextStyle(
+                          color: Color(0xFF081A52),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF081A52),
+                            width: 2.0,
+                          )),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(
+                          color: Color(0xFF081A52),
+                          width: 1.0, // Border width when not focused
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF081A52),
+                          width: 2.0,
+                        ),
+                      ),
+                      prefixIcon: Icon(
+                        Icons.person,
+                        color: Color(0xFF081A52),
+                        size: 25,
+                      ),
                     ),
-                    icon: const Icon(Icons.arrow_drop_down,
-                        color: Colors.black), // Custom icon color
-                    iconSize: 30,
-                    underline: Container(
-                      height: 2,
-                      color: Colors.black38,
-                    ),
-                    value: selectedRole,
-                    items: ['student', 'teacher'].map((String role) {
-                      return DropdownMenuItem<String>(
-                        value: role,
-                        child: Text(role),
-                      );
-                    }).toList(),
-                    onChanged: (value) => setState(() {
-                      selectedRole = value!;
-                    }),
+                    style: TextStyle(color: Color(0xFF081A52)),
                   ),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 20,
+                ),
+                // Radio buttons for role selection
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Radio(
+                      value: 'teacher',
+                      groupValue: selectedRole,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedRole = value.toString();
+                        });
+                      },
+                    ),
+                    Text('Teacher'),
+                    Radio(
+                      value: 'student',
+                      groupValue: selectedRole,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedRole = value.toString();
+                        });
+                      },
+                    ),
+                    Text('Student'),
+                  ],
                 ),
                 ElevatedButton(
-                  onPressed: () => signUpUser(),
+                  onPressed: () async {
+                    try {
+                      UserCredential userCredential =
+                      await FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                          email: email, password: password);
+
+                      // Create a new document in the users collection
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(userCredential.user!.uid)
+                          .set({
+                        'email': email,
+                        'name': name,
+                        'role': selectedRole,
+                      });
+
+                      // Navigate to dashboard based on the role
+                      if (selectedRole == 'teacher') {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          '/teacherHome',
+                          arguments: {'userId': userCredential.user!.uid},
+                        );
+                      } else if (selectedRole == 'student') {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          '/studentHome',
+                          arguments: {'userId': userCredential.user!.uid},
+                        );
+                      }
+                    } catch (e) {
+                      print('Error: $e');
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('Failed to sign up: ${e.toString()}')));
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF081A52)),
                   child: const Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 90.0, vertical: 8.0),
-                    child: Text('Sign Up',
-                        style: TextStyle(
+                    EdgeInsets.symmetric(horizontal: 80.0, vertical: 12.0),
+                    child: Text(
+                      'Sign Up',
+                      style: TextStyle(
                           fontSize: 18,
                           color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        )),
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ],
@@ -496,36 +522,5 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
-  }
-
-  void signUpUser() async {
-    try {
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      User? user = userCredential.user;
-
-      if (user != null) {
-        // Add user to Firestore with role
-        await _firestore
-            .collection('users')
-            .doc(user.uid)
-            .set({'email': email, 'role': selectedRole, 'name': name});
-
-        // Navigate to the login Screen
-        Navigator.pushNamed(context, '/');
-      }
-    }catch (e) {
-      print('Sign Up failed: $e');
-      // Optionally, show an error message to the user
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Sign Up failed. Please enter the valid details.'),
-        ),
-      );
-    }
   }
 }

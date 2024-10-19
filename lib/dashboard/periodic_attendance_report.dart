@@ -6,28 +6,29 @@ class PeriodicAttendanceReporter extends StatefulWidget {
   final String? classId;
   final String? subjectId;
 
-  const PeriodicAttendanceReporter(
-      {required this.classId, required this.subjectId});
+  const PeriodicAttendanceReporter({
+    required this.classId,
+    required this.subjectId,
+  });
 
   @override
-  _PeriodicAttendanceReporterState createState() =>
-      _PeriodicAttendanceReporterState(
-          classId: classId!, subjectId: subjectId!);
+  _PeriodicAttendanceReporterState createState() => _PeriodicAttendanceReporterState(
+    classId: classId!,
+    subjectId: subjectId!,
+  );
 }
 
-class _PeriodicAttendanceReporterState
-    extends State<PeriodicAttendanceReporter> {
+class _PeriodicAttendanceReporterState extends State<PeriodicAttendanceReporter> {
   final String classId;
   final String subjectId;
 
   // Toggle control variable (0 for daily, 1 for monthly)
   int _selectedView = 0;
-<<<<<<< HEAD
-=======
 
->>>>>>> e99ca66df2c8f844cef0aec8b69d5e3392a990cf
-  _PeriodicAttendanceReporterState(
-      {required this.classId, required this.subjectId});
+  _PeriodicAttendanceReporterState({
+    required this.classId,
+    required this.subjectId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,7 @@ class _PeriodicAttendanceReporterState
         child: Column(
           children: [
             SizedBox(height: 15),
-            // Toggle Button to switch between Daily and Monthly
+            // Toggle Button to switch between Daily and Monthly views
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ToggleButtons(
