@@ -276,10 +276,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar:  AppBar(
           elevation: 0,
           backgroundColor: Color(0xFF6BAEE1),
           centerTitle: true,
+<<<<<<< HEAD
+          title: const Text('Login',
+            style: TextStyle(
+              color: Color(0xFF081A52),
+              fontWeight: FontWeight.w800,
+            ),)),
+        body: Container(
+          decoration: const BoxDecoration(
+=======
           title: const Text(
             'Sign Up',
             style: TextStyle(
@@ -289,6 +298,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           )),
       body: Container(
         decoration: const BoxDecoration(
+>>>>>>> e99ca66df2c8f844cef0aec8b69d5e3392a990cf
           gradient: LinearGradient(
             colors: [Color(0xFFFFFFFF), Color(0xFF3D98EA)],
             begin: Alignment.topRight,

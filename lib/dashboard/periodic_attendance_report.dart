@@ -22,7 +22,10 @@ class _PeriodicAttendanceReporterState
 
   // Toggle control variable (0 for daily, 1 for monthly)
   int _selectedView = 0;
+<<<<<<< HEAD
+=======
 
+>>>>>>> e99ca66df2c8f844cef0aec8b69d5e3392a990cf
   _PeriodicAttendanceReporterState(
       {required this.classId, required this.subjectId});
 
