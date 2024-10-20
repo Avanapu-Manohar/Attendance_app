@@ -1,5 +1,6 @@
 import 'package:attendence_app/dashboard/student_daily_attendance_table.dart';
 import 'package:flutter/material.dart';
+import 'package:attendence_app/dashboard/student_attendance_percentage_table.dart'; // Import the percentage table
 
 class StudentAttendanceReport extends StatefulWidget {
   final String? classId;
@@ -37,7 +38,7 @@ class _StudentAttendanceReportState extends State<StudentAttendanceReport> {
         centerTitle: true,
         backgroundColor: Colors.blue,
         title: Text(
-          "Student Attendance Daily View",
+          "Student Attendance Report",
           style: TextStyle(
             color: Color(0xFF081A52),
             fontSize: 18,
@@ -48,6 +49,7 @@ class _StudentAttendanceReportState extends State<StudentAttendanceReport> {
       body: Center(
         child: Column(
           children: [
+            SizedBox(height: 15,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
@@ -74,7 +76,7 @@ class _StudentAttendanceReportState extends State<StudentAttendanceReport> {
                   child: DropdownButton<int>(
                     value: _selectedYear,
                     items: List.generate(
-                      31,
+                      100,
                           (index) => DropdownMenuItem(
                         value: 2000 + index,
                         child: Text((2000 + index).toString()),
@@ -117,6 +119,23 @@ class _StudentAttendanceReportState extends State<StudentAttendanceReport> {
             SizedBox(height: 15),
             // Display the attendance table based on the selected year and month
             StudentDailyAttendanceTable(
+              classId: classId,
+              studentId: studentId,
+              year: _selectedYear,
+              month: _selectedMonth,
+            ),
+            SizedBox(height: 15,),
+            // Add the percentage-wise attendance report
+            Text(
+              'Percentage-wise Attendance Report',
+              style: TextStyle(
+                color: Color(0xFF081A52),
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            SizedBox(height: 10),
+            StudentAttendancePercentageTable(
               classId: classId,
               studentId: studentId,
               year: _selectedYear,
