@@ -52,13 +52,20 @@ class DailyAttendanceTable extends StatelessWidget {
 
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: DataTable(
-            columns: [
-              DataColumn(label: Text('Date / Student')),
-              ...dates
-                  .map((date) => DataColumn(label: Text(date.substring(6)))),
-            ],
-            rows: rows,
+          child: Container(
+            padding: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey, width: 1), // Adding a border
+              borderRadius: BorderRadius.circular(8), // Adding rounded corners if needed
+            ),
+            child: DataTable(
+              columns: [
+                DataColumn(label: Text('Date / Student')),
+                ...dates
+                    .map((date) => DataColumn(label: Text(date.substring(6)))),
+              ],
+              rows: rows,
+            ),
           ),
         );
       },

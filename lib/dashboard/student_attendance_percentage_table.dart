@@ -41,16 +41,44 @@ class StudentAttendancePercentageTable extends StatelessWidget {
 
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: DataTable(
-            columns: [
-              DataColumn(label: Text('Subject',style: TextStyle(
-                color: Color(0xFF081A52),fontSize: 15,fontWeight: FontWeight.bold
-              ),)),
-              DataColumn(label: Text('Attendance Percentage',style: TextStyle(
-                  color: Color(0xFF081A52),fontSize: 15,fontWeight: FontWeight.bold
-              ),)),
-            ],
-            rows: rows,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey, width: 1), // Adding a border
+              borderRadius: BorderRadius.circular(8), // Adding rounded corners if needed
+            ),
+            child: DataTable(
+              columns: [
+                DataColumn(
+                  label: Text(
+                    'Subject',
+                    style: TextStyle(
+                      color: Color(0xFF081A52),
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'Attendance Percentage',
+                    style: TextStyle(
+                      color: Color(0xFF081A52),
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+              rows: rows,
+              // To add borders between rows and columns
+              border: TableBorder(
+                horizontalInside: BorderSide(
+                  width: 1,
+                  color: Colors.grey.shade300,
+                  style: BorderStyle.solid,
+                ),
+              ),
+            ),
           ),
         );
       },

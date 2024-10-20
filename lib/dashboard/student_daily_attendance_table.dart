@@ -52,17 +52,24 @@ class StudentDailyAttendanceTable extends StatelessWidget {
 
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: DataTable(
-            columns: [
-              DataColumn(label: Text('Date / Subject',style: TextStyle(
-                color: Color(0xFF081A52),fontSize: 15,fontWeight: FontWeight.bold
-              ),)),
-              ...dates
-                  .map((date) => DataColumn(label: Text(date.substring(6),style: TextStyle(
-                  color: Color(0xFF081A52),fontSize: 15,fontWeight: FontWeight.w500
-              ),))),
-            ],
-            rows: rows,
+          child: Container(
+            padding: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey, width: 1), // Adding a border
+              borderRadius: BorderRadius.circular(8), // Adding rounded corners if needed
+            ),
+            child: DataTable(
+              columns: [
+                DataColumn(label: Text('Date / Subject',style: TextStyle(
+                  color: Color(0xFF081A52),fontSize: 15,fontWeight: FontWeight.bold
+                ),)),
+                ...dates
+                    .map((date) => DataColumn(label: Text(date.substring(6),style: TextStyle(
+                    color: Color(0xFF081A52),fontSize: 15,fontWeight: FontWeight.w500
+                ),))),
+              ],
+              rows: rows,
+            ),
           ),
         );
       },
