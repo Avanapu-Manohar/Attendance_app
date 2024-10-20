@@ -61,13 +61,14 @@ class StudentsScreen extends StatelessWidget {
                     title: Text(
                       student.name,
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF081A52)),
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min, // Ensures compact buttons
                       children: [
+                        SizedBox(width: 15,),
                         ElevatedButton(
                           onPressed: () async {
                             await markAttendance(
@@ -77,7 +78,7 @@ class StudentsScreen extends StatelessWidget {
                             'Present',
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18,
+                                fontSize: 10,
                                 fontWeight: FontWeight.w800),
                           ),
                           style: ElevatedButton.styleFrom(
@@ -93,7 +94,7 @@ class StudentsScreen extends StatelessWidget {
                             'Absent',
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18,
+                                fontSize: 10,
                                 fontWeight: FontWeight.w800),
                           ),
                           style: ElevatedButton.styleFrom(

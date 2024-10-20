@@ -12,18 +12,24 @@ class PeriodicAttendanceReporter extends StatefulWidget {
   });
 
   @override
-  _PeriodicAttendanceReporterState createState() => _PeriodicAttendanceReporterState(
-    classId: classId!,
-    subjectId: subjectId!,
-  );
+  _PeriodicAttendanceReporterState createState() =>
+      _PeriodicAttendanceReporterState(
+        classId: classId!,
+        subjectId: subjectId!,
+      );
 }
 
-class _PeriodicAttendanceReporterState extends State<PeriodicAttendanceReporter> {
+class _PeriodicAttendanceReporterState
+    extends State<PeriodicAttendanceReporter> {
   final String classId;
   final String subjectId;
 
   // Toggle control variable (0 for daily, 1 for monthly)
   int _selectedView = 0;
+
+  // Selected year and month values
+  int _selectedYear = DateTime.now().year;
+  int _selectedMonth = DateTime.now().month;
 
   _PeriodicAttendanceReporterState({
     required this.classId,
@@ -48,59 +54,106 @@ class _PeriodicAttendanceReporterState extends State<PeriodicAttendanceReporter>
         child: Column(
           children: [
             SizedBox(height: 15),
-            // Toggle Button to switch between Daily and Monthly views
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ToggleButtons(
-                isSelected: [_selectedView == 0, _selectedView == 1],
-                onPressed: (int newIndex) {
-                  setState(() {
-                    _selectedView = newIndex;
-                  });
-                },
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      'Daily View',
-                      style: TextStyle(
-                          color: Color(0xFF081A52),
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      'Monthly View',
-                      style: TextStyle(
-                          color: Color(0xFF081A52),
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                ],
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                'Daily View',
+                style: TextStyle(
+                    color: Color(0xFF081A52),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700),
               ),
             ),
             SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Year Dropdown
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0), // Padding inside the box
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black38, width: 2.0),
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Colors.white54,
+                  ),
+                  child: DropdownButton<int>(
+                    value: _selectedYear,
+                    items: List.generate(
+                      31,
+                          (index) => DropdownMenuItem(
+                        value: 2000 + index,
+                        child: Text((2000 + index).toString()),
+                      ),
+                    ),
+                    onChanged: (int? newValue) {
+                      setState(() {
+                        _selectedYear = newValue!;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(width: 20),
+                // Month Dropdown
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0), // Padding inside the box
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black38, width: 2.0),
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Colors.white54,
+                  ),
+                  child: DropdownButton<int>(
+                    value: _selectedMonth,
+                    items: List.generate(
+                      12,
+                          (index) => DropdownMenuItem(
+                        value: index + 1,
+                        child: Text(
+                          _getMonthName(index + 1),
+                        ),
+                      ),
+                    ),
+                    onChanged: (int? newValue) {
+                      setState(() {
+                        _selectedMonth = newValue!;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 15),
             // Conditionally display the appropriate attendance view
-            Expanded(
-              child: _selectedView == 0
-                  ? DailyAttendanceTable(
+            Padding(
+              padding: EdgeInsets.all(10.0),
+              child: DailyAttendanceTable(
                 classId: classId,
                 subjectId: subjectId,
-                year: 2024,
-                month: 10,
-              )
-                  : MonthlyAttendanceTable(
-                classId: classId,
-                subjectId: subjectId,
-                year: 2024,
+                year: _selectedYear,
+                month: _selectedMonth,
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  // Helper method to get month name from number
+  String _getMonthName(int month) {
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+    return monthNames[month - 1];
   }
 }

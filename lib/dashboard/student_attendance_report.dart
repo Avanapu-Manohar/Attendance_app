@@ -4,21 +4,26 @@ import 'package:flutter/material.dart';
 class StudentAttendanceReport extends StatefulWidget {
   final String? classId;
   final String? studentId;
-  const StudentAttendanceReport(
-      {required this.classId, required this.studentId});
+
+  const StudentAttendanceReport({
+    required this.classId,
+    required this.studentId,
+  });
 
   @override
   State<StudentAttendanceReport> createState() => _StudentAttendanceReportState(
-        classId: classId!,
-        studentId: studentId!,
-      );
+    classId: classId!,
+    studentId: studentId!,
+  );
 }
 
 class _StudentAttendanceReportState extends State<StudentAttendanceReport> {
   final String classId;
   final String studentId;
 
-  int _selectedView = 0;
+  // Selected year and month
+  int _selectedYear = DateTime.now().year;
+  int _selectedMonth = DateTime.now().month;
 
   _StudentAttendanceReportState({
     required this.classId,
@@ -34,9 +39,10 @@ class _StudentAttendanceReportState extends State<StudentAttendanceReport> {
         title: Text(
           "Student Attendance Daily View",
           style: TextStyle(
-              color: Color(0xFF081A52),
-              fontSize: 18,
-              fontWeight: FontWeight.w700),
+            color: Color(0xFF081A52),
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
       body: Center(
@@ -47,17 +53,87 @@ class _StudentAttendanceReportState extends State<StudentAttendanceReport> {
               child: Text(
                 'Daily View',
                 style: TextStyle(
-                    color: Color(0xFF081A52),
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700),
+                  color: Color(0xFF081A52),
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
             SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Year Dropdown
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0), // Padding inside the box
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black38, width: 2.0),
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Colors.white54,
+                  ),
+                  child: DropdownButton<int>(
+                    value: _selectedYear,
+                    items: List.generate(
+                      31,
+                          (index) => DropdownMenuItem(
+                        value: 2000 + index,
+                        child: Text((2000 + index).toString()),
+                      ),
+                    ),
+                    onChanged: (int? newValue) {
+                      setState(() {
+                        _selectedYear = newValue!;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(width: 20),
+                // Month Dropdown
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0), // Padding inside the box
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black38, width: 2.0),
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Colors.white54,
+                  ),
+                  child: DropdownButton<int>(
+                    value: _selectedMonth,
+                    items: List.generate(
+                      12,
+                          (index) => DropdownMenuItem(
+                        value: index + 1,
+                        child: Text(_getMonthName(index + 1)),
+                      ),
+                    ),
+                    onChanged: (int? newValue) {
+                      setState(() {
+                        _selectedMonth = newValue!;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 15),
+            // Display the attendance table based on the selected year and month
             StudentDailyAttendanceTable(
-                classId: classId, studentId: studentId, year: 2024, month: 10)
+              classId: classId,
+              studentId: studentId,
+              year: _selectedYear,
+              month: _selectedMonth,
+            ),
           ],
         ),
       ),
     );
+  }
+
+  // Helper method to get month name from number
+  String _getMonthName(int month) {
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    return monthNames[month - 1];
   }
 }
