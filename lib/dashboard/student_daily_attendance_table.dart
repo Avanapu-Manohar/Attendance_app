@@ -1,15 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
 class StudentDailyAttendanceTable extends StatelessWidget {
   final String classId;
   final String studentId;
   final int year;
   final int month;
 
-  const StudentDailyAttendanceTable({required this.classId,
-    required this.studentId,
-    required this.year,
-    required this.month});
+  const StudentDailyAttendanceTable(
+      {required this.classId,
+      required this.studentId,
+      required this.year,
+      required this.month});
 
   @override
   Widget build(BuildContext context) {
@@ -62,21 +64,22 @@ class StudentDailyAttendanceTable extends StatelessWidget {
       },
     );
   }
+
   Future<Map<String, Map<String, bool>>> getDailyAttendance(
       String classId, String studentId, int year, int month) async {
     final attendanceCollection =
-    FirebaseFirestore.instance.collection('attendance-sheet');
+        FirebaseFirestore.instance.collection('attendance-sheet');
 
     // Query for attendance records in the specified class and subject for the specified month
     QuerySnapshot querySnapshot = await attendanceCollection
         .where('class', isEqualTo: classId)
-        .where('student', isEqualTo: studentId)
+        .where('studentId', isEqualTo: studentId)
         .where('dailyDate',
-        isGreaterThanOrEqualTo:
-        int.parse('$year$month' + '01')) // YYYYMMDD format
+            isGreaterThanOrEqualTo:
+                int.parse('$year$month' + '01')) // YYYYMMDD format
         .where('dailyDate',
-        isLessThan:
-        int.parse('$year$month' + '32')) // To get all days of the month
+            isLessThan:
+                int.parse('$year$month' + '32')) // To get all days of the month
         .get();
 
     // Initialize a map to store attendance by student and date
@@ -84,7 +87,7 @@ class StudentDailyAttendanceTable extends StatelessWidget {
 
     // Iterate over the query results and populate the map
     for (var doc in querySnapshot.docs) {
-      String subjectId = doc['subjectName'];
+      String subjectId = doc['subject'];
       int dailyDate = doc['dailyDate'];
       bool isPresent = doc['present'];
 

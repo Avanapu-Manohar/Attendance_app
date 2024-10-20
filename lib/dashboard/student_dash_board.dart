@@ -15,7 +15,7 @@ class StudentsDashBoard extends StatelessWidget {
   // Fetch the classes for the teacher from Firestore
   Future<List<Class>> fetchClasses() async {
     var classesSnapshot =
-    await FirebaseFirestore.instance.collection('classes').get();
+        await FirebaseFirestore.instance.collection('classes').get();
 
     // Mapping Firestore data to Class model
     List<Class> classList = await Future.wait(
@@ -27,7 +27,8 @@ class StudentsDashBoard extends StatelessWidget {
 
   Future<void> enrollToClass(String classId) async {
     try {
-      DocumentReference classRef = _firestore.collection('classes').doc(classId);
+      DocumentReference classRef =
+          _firestore.collection('classes').doc(classId);
       DocumentReference userRef = _firestore.collection('users').doc(userId);
 
       await classRef.update({
@@ -42,7 +43,8 @@ class StudentsDashBoard extends StatelessWidget {
 
   // Check if user is enrolled in any class
   bool isUserEnrolledInClass(Class classItem) {
-    return classItem.studentIds.contains(userId); // Ensure this is valid in your model
+    return classItem.studentIds
+        .contains(userId); // Ensure this is valid in your model
   }
 
   @override
@@ -110,14 +112,15 @@ class StudentsDashBoard extends StatelessWidget {
                     ElevatedButton(
                       onPressed: isEnrolled
                           ? () {
-                        // Navigate to the Reports screen
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => StudentAttendanceReport(classId: '', studentId: '',),
-                          ),
-                        );
-                      }
+                              // Navigate to the Reports screen
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => StudentAttendanceReport(
+                                      classId: classItem.id, studentId: userId),
+                                ),
+                              );
+                            }
                           : null, // Disable button if not enrolled
                       child: Text(
                         'Reports',
@@ -128,7 +131,9 @@ class StudentsDashBoard extends StatelessWidget {
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: isEnrolled ? Color(0xFF081A52) : Colors.grey, // Change color based on enrollment
+                        backgroundColor: isEnrolled
+                            ? Color(0xFF081A52)
+                            : Colors.grey, // Change color based on enrollment
                       ),
                     ),
                   ],

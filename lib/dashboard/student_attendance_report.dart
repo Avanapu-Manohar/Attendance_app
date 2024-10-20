@@ -1,15 +1,17 @@
 import 'package:attendence_app/dashboard/student_daily_attendance_table.dart';
 import 'package:flutter/material.dart';
+
 class StudentAttendanceReport extends StatefulWidget {
   final String? classId;
   final String? studentId;
-  const StudentAttendanceReport({required this.classId,required this.studentId});
+  const StudentAttendanceReport(
+      {required this.classId, required this.studentId});
 
   @override
   State<StudentAttendanceReport> createState() => _StudentAttendanceReportState(
-    classId: classId!,
-    studentId: studentId!,
-  );
+        classId: classId!,
+        studentId: studentId!,
+      );
 }
 
 class _StudentAttendanceReportState extends State<StudentAttendanceReport> {
@@ -51,7 +53,8 @@ class _StudentAttendanceReportState extends State<StudentAttendanceReport> {
               ),
             ),
             SizedBox(height: 15),
-            StudentDailyAttendanceTable(classId: '', studentId: '', year: 2024, month: 10)
+            StudentDailyAttendanceTable(
+                classId: classId, studentId: studentId, year: 2024, month: 10)
           ],
         ),
       ),
