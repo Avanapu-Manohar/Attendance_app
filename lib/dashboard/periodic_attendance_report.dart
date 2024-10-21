@@ -24,9 +24,6 @@ class _PeriodicAttendanceReporterState
   final String classId;
   final String subjectId;
 
-  // Toggle control variable (0 for daily, 1 for monthly)
-  int _selectedView = 0;
-
   // Selected year and month values
   int _selectedYear = DateTime.now().year;
   int _selectedMonth = DateTime.now().month;

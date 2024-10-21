@@ -98,7 +98,7 @@ class StudentAttendancePercentageTable extends StatelessWidget {
         .where('dailyDate', isLessThanOrEqualTo: int.parse('$year${month.toString().padLeft(2, '0')}31')) // YYYYMMDD format
         .get();
 
-    // Initialize maps to store total days and present days by subject
+    // Initialize maps to store total days and present days by subject.
     Map<String, int> totalDaysMap = {};
     Map<String, int> presentDaysMap = {};
 

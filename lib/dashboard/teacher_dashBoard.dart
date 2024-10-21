@@ -80,7 +80,7 @@ class TeacherDashboard extends StatelessWidget {
                         backgroundColor: Color(0xFF1D3E7E),
                       ),
                       child: Text(
-                        'Reports',
+                        'View Reports',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 18,
